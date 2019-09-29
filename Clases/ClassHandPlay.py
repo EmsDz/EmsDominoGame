@@ -2,13 +2,15 @@
 class handPlay(object):  # partida
     """docstring for handPlay"""
 
-    def __init__(self, players, handPlayNumber, points):
-        super(handPlay, self).__init__()
+    def __init__(self, players):
+        # super(handPlay, self).__init__()
         self.players = players  # players in this round, is a list
         self.firtsTurn = ''  # who play first
-        self.handPlayNumber = handPlayNumber  # present handplay, is integer
+        self.handPlayNumber = 0  # present handplay, is integer
         self.winner = ''  # name of the winner
-        self.points = points  # count of points of the current handPlay
+        self.points = 0  # count of points of the current handPlay
+        # self.currentRound = None
+        # self.handplayLog = None
 
     # make the order of play, that can vary in handplay to handplay
     def makePlayOrder(self):

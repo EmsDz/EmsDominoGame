@@ -7,9 +7,9 @@ from random import shuffle
 class table(object):
     """docstring for table"""
 
-    def __init__(self, tokens):
-        super(table, self).__init__()
-        self.tokens = tokens  # tokens that were played, is a list
+    def __init__(self):
+        # super(table, self).__init__()
+        self.tokens = []  # tokens that were played, is a list
         self.tokenPit = []  # contend the tokens that rest, that does not have player yet
 
     # return the sum of all tokens outside of the table
@@ -32,22 +32,35 @@ class table(object):
             self.tokens.append(token)
 
     # clean the tokens variable
-    def clearTable(self):
+    def clearTable(self):  # can be eliminate?
         self.tokens = []
 
+    # clean the tokens of each player
+    def clearPlayerTokens(self, playerList):
+        for player in playerList:
+            player.tokens = {}
+
     # put the  tokens randomly
-    def shuffleTokens(self, tokenList):
-        shuffle(tokenList)
+    def shuffleTokens(self, tokenList):  # can be better?, respect to cleanTable()
+        if len(self.tokens) < 28:
+            self.clearTable()
+            self.tokens += tokenList
+        shuffle(self.tokens)
 
     # give 7 tokens for each player
-    def giveTokens(self, tokenList, playerList):
+    def giveTokens(self, playerList):
         for player in playerList:
             for t in range(0, 7):  # can be better, ...
-                player.tokens[tokenList[0].number] = tokenList[0]
-                tokenList.pop(0)
-        if tokenList:
-            self.tokenPit += tokenList
-            clearTable()
+                player.tokens[self.tokens[0].number] = self.tokens[0]
+                self.tokens.pop(0)
+        if self.tokens:
+            self.tokenPit += self.tokens
+            self.clearTable()
 
-    def giveFromTokenpit(self):
-        pass
+    def giveFromTokenpit(self, player):
+        player.tokens.append(self.tokenPit.pop(0))
+
+    def showTableTokens(self):
+        for token in self.tokens:
+            token.showToken()
+        print()

@@ -6,14 +6,14 @@ class token(object):
     """docstring for token"""
 
     def __init__(self, num):
-        super(token, self).__init__()
+        # super(token, self).__init__()
         self.number = num  # which number is in the token, is a string
 
     def changeOrientation(self):
         self.number = self.number[1] + self.number[0]
 
     def showToken(self):
-        print(self.number)
+        print('[' + self.number[0] + '|' + self.number[1] + ']',)
 
     def tokenValue(self):
         return int(self.number[0]) + int(self.number[1])

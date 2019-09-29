@@ -5,13 +5,14 @@
 class player(object):
     """docstring for player"""
 
-    def __init__(self, name, turn, partner):
-        super(player, self).__init__()
+    def __init__(self, name):
+        # super(player, self).__init__()
         self.name = name  # player name, is a string
         self.tokens = {}  # player tokens, is a dictionary not a list
-        self.turn = turn  # player turn, is a integer
+        self.turn = 0  # player turn, is a integer
+        self.satate = 'initial'  # player, "turn", status in each round [initial, played, passed]
         self.playerPoints = 0  # player points, is a integer
-        self.partner = partner  # the partner of the player, is a string
+        self.partner = None  # the partner of the player, is a string
 
     # add a token to the variable tokens in table, sent it to be verified
     def addTokenToTable(self, token, table):
