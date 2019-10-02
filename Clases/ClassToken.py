@@ -13,7 +13,7 @@ class token(object):
         self.number = self.number[1] + self.number[0]
 
     def showToken(self):
-        print('[' + self.number[0] + '|' + self.number[1] + ']',)
+        print('[' + self.number[0] + '|' + self.number[1] + ']', end='')
 
     def tokenValue(self):
         return int(self.number[0]) + int(self.number[1])

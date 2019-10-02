@@ -9,7 +9,7 @@ class table(object):
 
     def __init__(self):
         # super(table, self).__init__()
-        self.tokens = []  # tokens that were played, is a list
+        self.tokens = []  # tokens that were played, is a list of obj
         self.tokenPit = []  # contend the tokens that rest, that does not have player yet
 
     # return the sum of all tokens outside of the table
@@ -20,16 +20,18 @@ class table(object):
         return totalPoints
 
     # verifies the position of the token to put it in the table
+
     def addToken(self, token):  # getToken
         if self.tokens == []:
             self.tokens.append(token)
         elif token.number[0] == self.tokens[0].number[0]:
             token.changeOrientation()
             self.tokens = [token] + self.tokens
-        else:
-            if token.number[0] != self.tokens[len(self.tokens) - 1].number[1]:
-                token.changeOrientation()
+        elif token.number[0] == self.tokens[-1].number[1]:
             self.tokens.append(token)
+        else:
+            return False
+        return True
 
     # clean the tokens variable
     def clearTable(self):  # can be eliminate?
