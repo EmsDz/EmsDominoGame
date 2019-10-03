@@ -2,6 +2,8 @@
 
 import os
 from Clases import ClassGame as CGame, ClassHandPlay as CHandPlay, ClassPlayer as Cplayer
+from Actions.PlayerActions import playPerson, playBot
+from Reports import report
 
 # introduction
 
@@ -18,54 +20,6 @@ print('welcome to ... dominoes game')
 print('iniciacion para jugar')
 print()
 AllGames = {}
-
-
-def playPerson(player, table, handPlay):
-    print('is the turn of: ', player.name)
-    input('press enter to continue')
-    print(player.name, ' tokens: ')
-    print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
-    if player.checkPlay(table):
-        print('you can play a token')
-        print('enter the number: ', end='')
-        while not player.addTokenToTable(input(), table):
-            print('enter a valid token: ', end='')
-        if handPlay.passCount == 3:  # poner mas arriba
-            print('you win x points')
-        handPlay.passCount = 0
-    else:
-        print('you can not play a token')
-        input('press enter to pass')
-        player.passTurn()
-        handPlay.passCount += 1
-
-
-def playBot(player, table, handPlay):
-    print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
-    if player.checkPlay(table):
-        player.autoPlay(table)
-        handPlay.passCount = 0
-    else:
-        player.passTurn()
-        handPlay.passCount += 1
-
-
-def Reports(table):
-    print('')
-    print('Reports: ')
-    print('players name: ', table.playerList[0].name + ', ', end=''),
-    print(table.playerList[1].name + ', ' + table.playerList[2].name + ', ', end='')
-    print(table.playerList[3].name, '\n')
-    print(table.playerList[0].name + ' : ', [token for token in table.playerList[0].tokens])
-    print(table.playerList[1].name + ' : ', [token for token in table.playerList[1].tokens])
-    print(table.playerList[2].name + ' : ', [token for token in table.playerList[2].tokens])
-    print(table.playerList[3].name + ' : ', [token for token in table.playerList[3].tokens], '\n')
-    print('hand plays', len(table.handPlays))
-    print('current hand Play: ', table.handPlays[-1].handPlayNumber, '\n')
-    print('first player: ', table.handPlays[-1].firstsTurn)
-    print('play order: ', [player.name for player in table.handPlays[-1].players])
-    input('waiting for key...')
-
 
 def openDoubleSix(players):
     for player in AllGames[p1].handPlays[-1].players:
@@ -101,13 +55,13 @@ while input('continue with the game: ').upper() == 'S':
 
     Pycls()
 
-    Reports(AllGames[p1])
+    report(AllGames[p1])
 
     print('comienzo del juego')
 
     while AllGames[p1].handPlays[-1].winner is None:
 
-        Reports(AllGames[p1])
+        report(AllGames[p1])
 
         # if AllGames[p1].handPlays[-1].handPlayNumber == 1:
         #     openDoubleSix(AllGames[p1].handPlays[-1].players[0])
