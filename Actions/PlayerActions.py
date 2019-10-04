@@ -23,7 +23,7 @@ def playPerson(player, table, handPlay):
 def playBot(player, table, handPlay):
     print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
     if player.checkPlay(table):
-        player.autoPlay(table)
+        player.autoPlay(table, handPlay)
         handPlay.passCount = 0
     else:
         player.passTurn()

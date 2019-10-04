@@ -19,7 +19,7 @@ class player(object):
     def addTokenToTable(self, token, table):
         if len(token) != 2 or token[0] not in '0123456' or token[1] not in '0123456':
             return False
-        # if int(token) >= 0 and int(token) <= 66:
+
         if token in self.tokens or token[::-1] in self.tokens:
             try:
                 if table.addToken(self.tokens[token]):
@@ -59,7 +59,8 @@ class player(object):
     def getTokenFromTokenPit(self, table):
         if not self.checkPlay(table):
             if table.tokenPit:
-                self.tokens.append(table.tokenPit.pop(0))
+                token = table.tokenPit.pop(0)
+                self.tokens[token] = token
             else:
                 print("the tokenPit is empty")
         else:

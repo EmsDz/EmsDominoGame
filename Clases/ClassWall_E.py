@@ -13,11 +13,14 @@ class wall_E(player):
         self.imAbot = True
         self.tokensToPlay = []
 
-    def autoPlay(self, table):
-        if not table.tokens:
-            # table.addToken(self.tokens['66'])
+    def autoPlay(self, table, handPlay):
+        print(self.name +' : '+ 'has played: ')
+        # if not table.tokens and handPlay.handPlayNumber == 1:
+        if not table.tokens and self.name == handPlay.firstsTurn:
             table.addToken(self.tokens.pop('66'))
-            return
+        elif not table.tokens:
+            token = choice(self.tokens.keys())
+            table.addToken(self.tokens.pop(token))
 
         self.makeTokensToPlay(table)
         token = choice(self.tokensToPlay).number

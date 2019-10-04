@@ -58,6 +58,15 @@ while input('continue with the game: ').upper() == 'S':
     report(AllGames[p1])
 
     print('comienzo del juego')
+    
+    if AllGames[p1].handPlays[-1].handPlayNumber == 1:
+        token = AllGames[p1].handPlays[-1].openDoubleSix()
+        AllGames[p1].addToken(token)
+        for player in AllGames[p1].handPlays[-1].players[1:]:
+            if player.imAbot:
+                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1])
+            else:
+                playPerson(player, AllGames[p1], AllGames[p1].handPlays[-1])
 
     while AllGames[p1].handPlays[-1].winner is None:
 
