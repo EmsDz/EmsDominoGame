@@ -28,8 +28,20 @@ class handPlay(object):  # partida
                     return
             # include player max token
 
-    def openDoubleSix(self, players):
-        pass
+    def openDoubleSix(self): # add automatically the token
+        
+        if self.players[0].imAbot:
+            return self.players[0].tokens.pop('66')
+        else:
+            print('Abre doble 6')
+            print(self.players[0].name, 'Inicia la partida.')
+            input('press enter to continue')
+            print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
+            x = input('ingresa Ficha a jugar: ')
+            while x != '66':
+                print('debes comenzar con la ficha 66.')
+                x = input('ingresa Ficha a jugar: ')
+            return self.players[0].tokens.pop(x)
 
     def checkWinner(self, player, table):
         if not player.tokens:
