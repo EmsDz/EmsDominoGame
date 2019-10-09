@@ -30,4 +30,7 @@ class game(table, gameRules):  # debe eredar de mesa
             for z in range(x, 7):
                 self.tokenBox.append(token(str(x) + str(z)))
 
+    def makeGroups(self):
+        pass
+    
     # make player?

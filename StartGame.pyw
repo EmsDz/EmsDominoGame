@@ -21,17 +21,6 @@ print('iniciacion para jugar')
 print()
 AllGames = {}
 
-def openDoubleSix(players):
-    for player in AllGames[p1].handPlays[-1].players:
-        [token.showToken() for token in AllGames[p1].tokens]
-        print()  # [token.showToken() for token in AllGames[p1].tokens])
-
-        if player.imAbot:
-            playBot(player, AllGames[p1], AllGames[p1].handPlays[-1])
-        else:
-            playPerson(player, AllGames[p1], AllGames[p1].handPlays[-1])
-
-
 while input('continue with the game: ').upper() == 'S':
 
     if input('create new game: ') == 's':
@@ -64,9 +53,9 @@ while input('continue with the game: ').upper() == 'S':
         AllGames[p1].addToken(token)
         for player in AllGames[p1].handPlays[-1].players[1:]:
             if player.imAbot:
-                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1])
+                playBot(player, AllGames[p1], AllGames[p1].passCount)
             else:
-                playPerson(player, AllGames[p1], AllGames[p1].handPlays[-1])
+                playPerson(player, AllGames[p1], AllGames[p1].passCount)
 
     while AllGames[p1].handPlays[-1].winner is None:
 
@@ -80,14 +69,11 @@ while input('continue with the game: ').upper() == 'S':
             print()  # [token.showToken() for token in AllGames[p1].tokens])
 
             if player.imAbot:
-                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1])
+                playBot(player, AllGames[p1], AllGames[p1].passCount )
             else:
-                playPerson(player, AllGames[p1], AllGames[p1].handPlays[-1])
+                playPerson(player, AllGames[p1], AllGames[p1].passCount)
 
-            if AllGames[p1].handPlays[-1].passCount == 4:
-                print('end of the game')  # with the 2 next players
-            # elif AllGames.[p1].handPlays[-1].passCount == 3:
-            #     print('you win x points for pass all players')  # is the next player
+            AllGames[p1].handPlayBlocked()
 
             if AllGames[p1].handPlays[-1].checkWinner(player, AllGames[p1]):
                 AllGames[p1].clearTable()

@@ -9,7 +9,7 @@ class handPlay(object):  # partida
         self.firstsTurn = ''  # who play first
         self.winner = None  # name of the winner
         self.points = 0  # count of points of the current handPlay
-        self.passCount = 0
+        # self.passCount = 0
         # self.currentRound = None
         # self.handplayLog = None
 
