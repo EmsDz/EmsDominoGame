@@ -16,14 +16,17 @@ class wall_E(player):
     def autoPlay(self, table, handPlay):
         print(self.name +' : '+ 'has played: ')
         # if not table.tokens and handPlay.handPlayNumber == 1:
-        if not table.tokens and self.name == handPlay.firstsTurn:
-            table.addToken(self.tokens.pop('66'))
-        elif not table.tokens:
+        if not table.tokens and self.name == handPlay.firstsTurn: # modificar
+            for token in ['66', '55', '44', '33', '22', '11', '00']:
+                if token in self.tokens:
+                    table.addToken(self.tokens.pop(token))
+                    return
             token = choice(self.tokens.keys())
             table.addToken(self.tokens.pop(token))
+            return
 
         self.makeTokensToPlay(table)
-        token = choice(self.tokensToPlay).number
+        token = choice(self.tokensToPlay).number # select a ramdome token to play
 
         if table.addToken(self.tokens[token]):
             self.tokens.pop(token)
@@ -33,9 +36,8 @@ class wall_E(player):
             table.addToken(self.tokens[token])
             self.tokens.pop(token)
             self.state = 'played'
-        # else:
-        #     self.passTurn()
 
+    # create a lis with the tokens that the player can play
     def makeTokensToPlay(self, table):
         self.tokensToPlay = []
         side = table.tokens[0].number[0] + table.tokens[-1].number[1]

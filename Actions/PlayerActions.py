@@ -20,7 +20,7 @@ def playPerson(player, table, passNum):
         passNum[0] += 1
 
 
-def playBot(player, table, handPlay):
+def playBot(player, table, handPlay, passNum):
     print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
     if player.checkPlay(table):
         player.autoPlay(table, handPlay)

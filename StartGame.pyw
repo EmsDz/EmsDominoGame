@@ -42,9 +42,9 @@ while input('continue with the game: ').upper() == 'S':
         AllGames[p1].handPlays[-1].makeFirstsTurn()
         AllGames[p1].handPlays[-1].makePlayOrder()
 
-    Pycls()
+    # Pycls()
 
-    report(AllGames[p1])
+    # report(AllGames[p1])
 
     print('comienzo del juego')
     
@@ -53,27 +53,28 @@ while input('continue with the game: ').upper() == 'S':
         AllGames[p1].addToken(token)
         for player in AllGames[p1].handPlays[-1].players[1:]:
             if player.imAbot:
-                playBot(player, AllGames[p1], AllGames[p1].passCount)
+                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1], AllGames[p1].passCount)
             else:
                 playPerson(player, AllGames[p1], AllGames[p1].passCount)
 
     while AllGames[p1].handPlays[-1].winner is None:
 
-        report(AllGames[p1])
+        # report(AllGames[p1])
 
         # if AllGames[p1].handPlays[-1].handPlayNumber == 1:
         #     openDoubleSix(AllGames[p1].handPlays[-1].players[0])
 
         for player in AllGames[p1].handPlays[-1].players:
+            print("Mesa: ")
             [token.showToken() for token in AllGames[p1].tokens]
             print()  # [token.showToken() for token in AllGames[p1].tokens])
 
             if player.imAbot:
-                playBot(player, AllGames[p1], AllGames[p1].passCount )
+                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1], AllGames[p1].passCount )
             else:
                 playPerson(player, AllGames[p1], AllGames[p1].passCount)
 
-            AllGames[p1].handPlayBlocked()
+            AllGames[p1].handPlayBlocked(player)
 
             if AllGames[p1].handPlays[-1].checkWinner(player, AllGames[p1]):
                 AllGames[p1].clearTable()
@@ -82,7 +83,7 @@ while input('continue with the game: ').upper() == 'S':
                 print('the winner is: ', AllGames[p1].handPlays[-1].winner)
 
             # input('\npress enter')
-            Pycls()
+            # Pycls()
 
     print('end of game? NO. is end of handPlay')
     input('enter')
