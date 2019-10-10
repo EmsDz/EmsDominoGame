@@ -31,6 +31,7 @@ class handPlay(object):  # partida
     def openDoubleSix(self): # add automatically the token
         
         if self.players[0].imAbot:
+            print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
             return self.players[0].tokens.pop('66')
         else:
             print('Abre doble 6')
