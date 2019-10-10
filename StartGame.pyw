@@ -3,20 +3,18 @@
 import os
 from Clases import ClassGame as CGame, ClassHandPlay as CHandPlay, ClassPlayer as Cplayer
 from Actions.PlayerActions import playPerson, playBot
+from Menu import Introduction as Intro, MenuContent as MenuC
 from Reports import report
 
-# introduction
-
-# MENU
 
 # make control for each input
-
 
 def Pycls(): return os.system("cls")  # cls, borrar pantalla
 
 
 Pycls()
-print('welcome to ... dominoes game')
+Intro.introduction()
+MenuC.menu()
 print('iniciacion para jugar')
 print()
 AllGames = {}
