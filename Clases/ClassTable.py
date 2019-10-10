@@ -11,6 +11,7 @@ class table(object):
         # super(table, self).__init__()
         self.tokens = []  # tokens that were played, is a list of obj
         self.tokenPit = []  # contend the tokens that rest, that does not have player yet
+        self.lastState = [[], '', '']
 
     # return the sum of all tokens outside of the table
     def countPoints(self):
@@ -23,14 +24,18 @@ class table(object):
 
     def addToken(self, token):  # getToken
         if self.tokens == []:
+            pastToken = ''
             self.tokens.append(token)
         elif token.number[0] == self.tokens[0].number[0]:
+            pastToken = self.tokens[0].number[0] + self.tokens[-1].number[1]
             token.changeOrientation()
             self.tokens = [token] + self.tokens
         elif token.number[0] == self.tokens[-1].number[1]:
+            pastToken = self.tokens[0].number[0] + self.tokens[-1].number[1]
             self.tokens.append(token)
         else:
             return False
+        self.lastState = [self.tokens, pastToken, token]
         return True
 
     # clean the tokens variable
