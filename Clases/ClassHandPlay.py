@@ -20,7 +20,7 @@ class handPlay(object):  # partida
                 self.players = self.players[t:] + self.players[0:t]
 
     # finds the first turn in each start game
-    def makeFirstsTurn(self):
+    def makeFirstsTurn(self):  # change to recibe an argument, player to check previous handPlay
         for x in ['66', '55', '44', '33', '22', '11', '00']:
             for player in self.players:
                 if x in player.tokens:
@@ -28,10 +28,11 @@ class handPlay(object):  # partida
                     return
             # include player max token
 
-    def openDoubleSix(self): # add automatically the token
-        
+    def openDoubleSix(self):  # add automatically the token
+
         if self.players[0].imAbot:
-            print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
+            # print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
+            print(self.players[0].name + ' jugo: 66')
             return self.players[0].tokens.pop('66')
         else:
             print('Abre doble 6')
@@ -42,11 +43,15 @@ class handPlay(object):  # partida
             while x != '66':
                 print('debes comenzar con la ficha 66.')
                 x = input('ingresa Ficha a jugar: ')
+            print(self.players[0].name + ' jugo: 66')
             return self.players[0].tokens.pop(x)
 
-    def checkWinner(self, player, table):
+    def checkWinner(self, player, table):  # can be eliminated
         if not player.tokens:
             self.winner = player.name
             self.points = table.countPoints()
+            player.playerPoints += self.points
+            # ??? make new handPlay ???
+            # change players states
             return True
         return False
