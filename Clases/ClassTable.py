@@ -14,7 +14,7 @@ class table(object):
         self.lastState = [[], '', '']
 
     # return the sum of all tokens outside of the table
-    def countPoints(self):
+    def countPoints(self):  # menos los del tokenPit - agregar
         totalPoints = 168
         for token in self.tokens:
             totalPoints -= token.tokenValue()
@@ -43,7 +43,7 @@ class table(object):
         self.tokens = []
 
     # clean the tokens of each player
-    def clearPlayerTokens(self, playerList):
+    def clearPlayerTokens(self, playerList): # can be better, set state of player
         for player in playerList:
             player.tokens = {}
 
@@ -68,6 +68,10 @@ class table(object):
         player.tokens.append(self.tokenPit.pop(0))
 
     def showTableTokens(self):
+        print('Mesa:')
+        print('[ ', end='')
         for token in self.tokens:
             token.showToken()
+            # print('')
+        print(' ]', end='')
         print()
