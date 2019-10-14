@@ -1,4 +1,7 @@
 
+#
+
+
 class handPlay(object):  # partida
     """docstring for handPlay"""
 
@@ -29,21 +32,29 @@ class handPlay(object):  # partida
             # include player max token
 
     def openDoubleSix(self):  # add automatically the token
-
+        # change name to be global
         if self.players[0].imAbot:
             # print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
-            print(self.players[0].name + ' jugo: 66')
-            return self.players[0].tokens.pop('66')
-        else:
+            if '66' in self.players[0].tokens:
+                print(self.players[0].name + ' jugo: 66')
+                return self.players[0].tokens.pop('66')
+            token = 0
+            for x in self.players[0].tokens:
+                if int(x) > token:
+                    token = int(x)
+            print(self.players[0].name + 'jugo: ' + str(token))
+            return self.players[0].tokens.pop(str(token))
+
+        else:  # modify to open with another token
             print('Abre doble 6')
             print(self.players[0].name, 'Inicia la partida.')
             input('press enter to continue')
             print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
             x = input('ingresa Ficha a jugar: ')
-            while x != '66':
+            while x != '66' and '66' in self.players[0].tokens:  # little changed
                 print('debes comenzar con la ficha 66.')
                 x = input('ingresa Ficha a jugar: ')
-            print(self.players[0].name + ' jugo: 66')
+            print(self.players[0].name + ' jugo: ' + x)
             return self.players[0].tokens.pop(x)
 
     def checkWinner(self, player, table):  # can be eliminated
