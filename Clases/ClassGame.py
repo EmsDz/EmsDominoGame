@@ -26,11 +26,11 @@ class game(table, gameRules):  # debe eredar de mesa
         self.handPlays[-1].handPlayNumber = len(self.handPlays)
 
     def makeTokenBox(self):
-        for x in range(0, 7):
-            for z in range(x, 7):
+        for x in range(6, -1, -1):
+            for z in range(x, -1, -1):
                 self.tokenBox.append(token(str(x) + str(z)))
 
     def makeGroups(self):
         pass
-    
+
     # make player?
