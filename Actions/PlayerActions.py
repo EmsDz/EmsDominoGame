@@ -1,37 +1,43 @@
+
 #
 
 
 def playPerson(player, table, passNum):
-    print('is the turn of: ', player.name)
-    input('press enter to continue')
-    print(player.name, ' tokens: ')
+    print('Is The Turn Of: ', player.name)
+    input('Press Enter To Continue')
+    print(player.name, ' Tokens: ')
     print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
     if player.checkPlay(table):
-        if passNum[0] == 3:
-            print('you win x points')
+        if passNum[0] == 3:  # change
+            print('You win x points')
         passNum[0] = 0
-        print('you can play a token')
-        print('enter the number: ', end='')
+        print('You can play a token')
+        print('Enter the number: ', end='')
         token = input()
         while not player.addTokenToTable(token, table):
-            print('enter a valid token: ', end='')
+            print('Enter a valid token: ', end='')
             token = input()
-        print(player.name + ' has played: ' + token)
+        print(player.name + ' Has played: ' + token)
+        return [player, token]
     else:
-        print('you can not play a token')
-        input('press enter to pass')
+        print('You can not play a token')
+        input('Press enter to Pass')
         player.passTurn()
         passNum[0] += 1
-        print(player.name + ' has played: passed')
+        print(player.name + ' Has: Passed')
+        return [player, 'Passed']
 
 
 def playBot(player, table, handPlay, passNum):
-    print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
+    # print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
     if player.checkPlay(table):
-        player.autoPlay(table, handPlay)
+        # win x points
+        token = player.autoPlay(table, handPlay)
         passNum[0] = 0
+        handPlay.currentRound.append([player, token])
         # print(player.name + ' has played: ')
     else:
         player.passTurn()
         passNum[0] += 1
-        print(player.name + ' has played: passed')
+        print(player.name + ' Has: Passed')
+        handPlay.currentRound.append([player, 'Passed'])

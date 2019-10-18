@@ -20,14 +20,20 @@ class wall_E(player):
                 if token in self.tokens:
                     table.addToken(self.tokens.pop(token))
                     print(self.name + ' has played: ' + token)
-                    return
-            token = choice(self.tokens.keys())
+                    return token
+            k = self.tokens.keys()
+            print(k)
+            token = choice(k)
             table.addToken(self.tokens.pop(token))
             print(self.name + ' has played: ' + token)
-            return
+            return token
 
         self.makeTokensToPlay(table)
         token = choice(self.tokensToPlay).number  # select a ramdome token to play
+
+        # little error fixed
+        if token not in self.tokens:
+            token = token[1] + token[0]
 
         if table.addToken(self.tokens[token]):
             self.tokens.pop(token)
@@ -38,6 +44,7 @@ class wall_E(player):
             self.tokens.pop(token)
             self.state = 'played'
         print(self.name + ' has played: ' + token)
+        return token
 
     # create a lis with the tokens that the player can play
     def makeTokensToPlay(self, table):

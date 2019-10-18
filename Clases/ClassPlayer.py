@@ -53,7 +53,7 @@ class player(object):
     def tokenPoints(self):
         points = 0
         for token in self.tokens:
-            points += token.tokenValue()
+            points += self.tokens[token].tokenValue()
         return points
 
     def getTokenFromTokenPit(self, table):

@@ -18,10 +18,11 @@ class table(object):
         totalPoints = 168
         for token in self.tokens:
             totalPoints -= token.tokenValue()
+        for token in self.tokenPit:
+            totalPoints -= token.tokenValue()
         return totalPoints
 
     # verifies the position of the token to put it in the table
-
     def addToken(self, token):  # getToken
         if self.tokens == []:
             pastToken = ''
@@ -43,7 +44,7 @@ class table(object):
         self.tokens = []
 
     # clean the tokens of each player
-    def clearPlayerTokens(self, playerList): # can be better, set state of player
+    def clearPlayerTokens(self, playerList):  # can be better, set state of player, refactor
         for player in playerList:
             player.tokens = {}
 
@@ -61,6 +62,7 @@ class table(object):
                 player.tokens[self.tokens[0].number] = self.tokens[0]
                 self.tokens.pop(0)
         if self.tokens:
+            self.tokenPit = []
             self.tokenPit += self.tokens
             self.clearTable()
 
@@ -72,6 +74,5 @@ class table(object):
         print('[ ', end='')
         for token in self.tokens:
             token.showToken()
-            # print('')
         print(' ]', end='')
         print()

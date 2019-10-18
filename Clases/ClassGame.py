@@ -8,18 +8,17 @@ from .ClassPlayer import player
 from .ClassWall_E import wall_E
 
 
-class game(table, gameRules):  # debe eredar de mesa
+class game(table, gameRules):
     """docstring for game"""
 
     def __init__(self):
-        # super(game, self).__init__()
         table.__init__(self)
         gameRules.__init__(self)
         self.handPlays = []
         self.tokenBox = []
         self.playerList = []
-        # self.Bots = [wall_E('Bobby'), wall_E('Brayan'), wall_E('Teddy'), wall_E('Trebon')]
         self.Bots = [wall_E('Bobby'), wall_E('Brayan'), wall_E('Teddy'), wall_E('Trebon')]
+        self.gameHasEnded = False
 
     def newHandPlay(self, handplay):
         self.handPlays.append(handplay)

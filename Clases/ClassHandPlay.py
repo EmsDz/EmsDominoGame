@@ -13,8 +13,8 @@ class handPlay(object):  # partida
         self.winner = None  # name of the winner
         self.points = 0  # count of points of the current handPlay
         # self.passCount = 0
-        # self.currentRound = None
-        # self.handplayLog = None
+        self.currentRound = []
+        self.handPlayLog = {}
 
     # make the order of play, that can vary in handplay to handplay
     def makePlayOrder(self):
@@ -36,25 +36,31 @@ class handPlay(object):  # partida
         if self.players[0].imAbot:
             # print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
             if '66' in self.players[0].tokens:
-                print(self.players[0].name + ' jugo: 66')
+                print(self.players[0].name + ' Played: 66')
                 return self.players[0].tokens.pop('66')
             token = 0
             for x in self.players[0].tokens:
                 if int(x) > token:
                     token = int(x)
-            print(self.players[0].name + 'jugo: ' + str(token))
+            print(self.players[0].name + 'Played: ' + str(token))
             return self.players[0].tokens.pop(str(token))
 
         else:  # modify to open with another token
-            print('Abre doble 6')
-            print(self.players[0].name, 'Inicia la partida.')
+            print('Open Double Six')
+            print(self.players[0].name, 'Start This Round.')
             input('press enter to continue')
             print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
-            x = input('ingresa Ficha a jugar: ')
+            x = input('Enter Token To Play: ')
+
             while x != '66' and '66' in self.players[0].tokens:  # little changed
-                print('debes comenzar con la ficha 66.')
-                x = input('ingresa Ficha a jugar: ')
-            print(self.players[0].name + ' jugo: ' + x)
+                print('You Need To Start With 66.')
+                x = input('Enter Token To Play: ')
+
+            while x not in self.players[0].tokens:
+                print('Invalid Token.')
+                x = input('Enter Token Again: ')
+
+            print(self.players[0].name + ' Played: ' + x)
             return self.players[0].tokens.pop(x)
 
     def checkWinner(self, player, table):  # can be eliminated

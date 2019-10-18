@@ -1,3 +1,4 @@
+
 #
 
 import os
@@ -15,124 +16,111 @@ def Pycls(): return os.system("cls")  # cls, borrar pantalla
 Pycls()
 Intro.introduction()
 MenuC.menu()
-print('iniciacion para jugar')
-print()
 AllGames = {}
 
 
 def playerTurn(player, playerList):
     nextplayer = playerList.index(player) + 1
-    input('es turno de: ' + playerList[nextplayer].name)
+    if nextplayer >= len(playerList):
+        nextplayer = 0
+
+    input('Is Turn Of: ' + playerList[nextplayer].name)
 
 
-while input('continue with the game: ').upper() == 'S':
+def playersRound(players):
+    for player in players:
+        Pycls()
+        AllGames[p1].showTableTokens()
+        if player.imAbot:
+            playBot(player, AllGames[p1], AllGames[p1].handPlays[-1], AllGames[p1].passCount)
+        else:
+            data = playPerson(player, AllGames[p1], AllGames[p1].passCount)
+            AllGames[p1].handPlays[-1].currentRound.append(data)
 
-    if input('create new game: ') == 's':
+        if AllGames[p1].handPlays[-1].checkWinner(player, AllGames[p1]) or AllGames[p1].blockedWin(player):
+            AllGames[p1].clearTable()
+            AllGames[p1].clearPlayerTokens(AllGames[p1].handPlays[-1].players)
+            print('End of the hand')
+            print('The winner is: ', AllGames[p1].handPlays[-1].winner)
+            break
+        playerTurn(player, AllGames[p1].handPlays[-1].players)
+
+
+while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
+
+    if input('Create Game?, Yes/No: ').upper() == 'YES':
         p1 = len(AllGames) + 1
         AllGames[p1] = CGame.game()
         AllGames[p1].makeTokenBox()
+    else:
+        print('Thanks, buelbe cuando quieras jugar')
 
     # create players and bots
-    if True:  # input('create players: ') == 's':
-        print("select: 1- bot vs bot, 2- player vs bot, 3- player vs player, 4- 3 to 4 players")
-        while True:
-            selected = input('your selection is: ')
+    if not AllGames[p1].playerList:
+        Pycls()
+        MenuC.playerSelector(AllGames[p1].playerList, AllGames[p1].Bots, Cplayer)
 
-            # selected 1-
-            if selected == '1':
-                AllGames[p1].playerList.append(AllGames[p1].Bots.pop())
-                AllGames[p1].playerList.append(AllGames[p1].Bots.pop())
-
-            # selected 2-
-            if selected == '2':
-                AllGames[p1].playerList.append(AllGames[p1].Bots.pop())
-                AllGames[p1].playerList.append(Cplayer.player(input('enter name of player: ')))
-
-            # selected 3-
-            if selected == '3':
-                AllGames[p1].playerList.append(Cplayer.player(input('enter name of player 1: ')))
-                AllGames[p1].playerList.append(Cplayer.player(input('enter name of player 2: ')))
-
-            # selected 4-
-            while selected == '4':
-                nPlayers = int(input('enter number of player, between 2 and 4: '))
-                if nPlayers >= 2 and nPlayers <= 4:
-                    for x in range(0, nPlayers):
-                        yesOrno = input('want a bot player: yes or no ').upper()
-                        if yesOrno == 'YES':
-                            AllGames[p1].playerList.append(AllGames[p1].Bots.pop())
-                        elif yesOrno == 'NO':
-                            AllGames[p1].playerList.append(Cplayer.player(input('enter name of player: ')))
-                        else:
-                            print("enter a valid input.")
-                            nPlayers += 1
-                        break
-
-            # selected
-
-            if selected in "1234":
-                break
+    print('Game Start')
 
 # loop of game
+    while AllGames[p1].gameHasEnded is False:
 
         AllGames[p1].shuffleTokens(AllGames[p1].tokenBox)
         AllGames[p1].giveTokens(AllGames[p1].playerList)
 
-    if True:  # input('create hand play: ') == 's':
         AllGames[p1].newHandPlay(CHandPlay.handPlay(AllGames[p1].playerList))
-        AllGames[p1].handPlays[-1].makeFirstsTurn()
+        AllGames[p1].handPlays[-1].handPlayNumber = len((AllGames[p1].handPlays))
+
+        # Temporary Logs
+        LogState1 = AllGames[p1].handPlays[-1].currentRound
+        LogState2 = AllGames[p1].handPlays[-1].handPlayLog
+
+        if len(AllGames[p1].handPlays) == 1:
+            AllGames[p1].handPlays[-1].makeFirstsTurn()
+        else:
+            AllGames[p1].handPlays[-1].firstsTurn = AllGames[p1].handPlays[-2].winner
+
         AllGames[p1].handPlays[-1].makePlayOrder()
 
-    Pycls()
+        Pycls()
 
-    # report(AllGames[p1])
+        if AllGames[p1].handPlays[-1].handPlayNumber == 1:
+            print('Hand Start')
+            AllGames[p1].showTableTokens()
+            token = AllGames[p1].handPlays[-1].openDoubleSix()
+            AllGames[p1].addToken(token)
+            playerTurn(AllGames[p1].handPlays[-1].players[0], AllGames[p1].handPlays[-1].players)
 
-    print('comienzo del juego')
+            # log registry
+            AllGames[p1].handPlays[-1].currentRound.append([AllGames[p1].handPlays[-1].players[0], token])
 
-    if AllGames[p1].handPlays[-1].handPlayNumber == 1:
-        AllGames[p1].showTableToken()
-        token = AllGames[p1].handPlays[-1].openDoubleSix()
-        AllGames[p1].addToken(token)
-        playerTurn(AllGames[p1].handPlays[-1].players[0], AllGames[p1].handPlays.players)
-        for player in AllGames[p1].handPlays[-1].players[1:]:
-            Pycls()
-            AllGames[p1].showTableToken()
-            if player.imAbot:
-                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1], AllGames[p1].passCount)
+            playersRound(AllGames[p1].handPlays[-1].players[1:])
+            AllGames[p1].handPlays[-1].handPlayLog[1] = AllGames[p1].handPlays[-1].currentRound
+            AllGames[p1].handPlays[-1].currentRound = []
+
+        # temporary variable
+        logCount = 2
+        while AllGames[p1].handPlays[-1].winner is None:
+            playersRound(AllGames[p1].handPlays[-1].players)
+            AllGames[p1].handPlays[-1].handPlayLog[logCount] = AllGames[p1].handPlays[-1].currentRound
+            AllGames[p1].handPlays[-1].currentRound = []
+            logCount += 1
+
+        print('hand prints: ', AllGames[p1].handPlays[-1].points)
+        print('p1: ', AllGames[p1].handPlays[-1].players[0].name, AllGames[p1].handPlays[-1].players[0].playerPoints)
+        print('p2: ', AllGames[p1].handPlays[-1].players[1].name, AllGames[p1].handPlays[-1].players[1].playerPoints)
+
+        input('\nPress Enter')
+        Pycls()
+        print('New handPlay')
+
+        # end of the game
+        endGame = AllGames[p1].endOfGame(AllGames[p1].handPlays[-1].players)
+
+        if endGame[0] is True:
+            print('The Game has ended.')
+            if type(endGame[1]) is list:
+                print('Te Winners are: ', endGame[1][0], endGame[1][1])
             else:
-                playPerson(player, AllGames[p1], AllGames[p1].passCount)
-            playerTurn(player, AllGames[p1].handPlays.players)
-
-    while AllGames[p1].handPlays[-1].winner is None:
-
-        # report(AllGames[p1])
-
-        # if AllGames[p1].handPlays[-1].handPlayNumber == 1:
-        #     openDoubleSix(AllGames[p1].handPlays[-1].players[0])
-
-        for player in AllGames[p1].handPlays[-1].players:
-            Pycls()
-            AllGames[p1].showTableToken()
-
-            if player.imAbot:
-                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1], AllGames[p1].passCount)
-            else:
-                playPerson(player, AllGames[p1], AllGames[p1].passCount)
-
-            AllGames[p1].handPlayBlocked(player)
-
-            if AllGames[p1].handPlays[-1].checkWinner(player, AllGames[p1]):
-                AllGames[p1].clearTable()
-                AllGames[p1].clearPlayerTokens(AllGames[p1].handPlays[-1].players)
-                print('end of the game')
-                print('the winner is: ', AllGames[p1].handPlays[-1].winner)
-                break
-
-            playerTurn(player, AllGames[p1].handPlays.players)
-
-    input('\npress enter')
-    Pycls()
-    print('New handPlay')
-
-    # print('end of game? NO. is end of handPlay')
-    input('enter')
+                print('Te Winner is: ', endGame[1])
+            input('')
