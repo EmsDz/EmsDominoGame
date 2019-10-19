@@ -24,18 +24,14 @@ class gameRules(object):
 
         if player1.tokenPoints() >= player2.tokenPoints():
             self.normalWin(player1)
-            self.passCount[0] = 0
         else:
             self.normalWin(player2)
-            self.passCount[0] = 0
 
     def normalWin(self, player):  # can be better
         self.handPlays[-1].winner = player.name
         self.handPlays[-1].points = self.countPoints()
         player.playerPoints += self.handPlays[-1].points
         print('End Of the Hand')
-        self.clearTable()
-        self.passCount[0] = 0
         self.clearPlayerTokens(self.handPlays[-1].players)
         print('The Winner is: ', player.name, end='\n')
 

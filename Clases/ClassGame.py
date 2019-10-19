@@ -23,6 +23,8 @@ class game(table, gameRules):
     def newHandPlay(self, handplay):
         self.handPlays.append(handplay)
         self.handPlays[-1].handPlayNumber = len(self.handPlays)
+        self.passCount = 0
+        self.clearTable()
 
     def makeTokenBox(self):
         for x in range(6, -1, -1):

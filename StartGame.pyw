@@ -83,7 +83,6 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
 
         # Create Hand Play
         AllGames[p1].newHandPlay(CHandPlay.handPlay(AllGames[p1].playerList))
-        AllGames[p1].handPlays[-1].handPlayNumber = len((AllGames[p1].handPlays))
 
         # Temporary Logs
         LogState1 = AllGames[p1].handPlays[-1].currentRound
