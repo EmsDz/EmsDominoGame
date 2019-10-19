@@ -23,18 +23,23 @@ class handPlay(object):  # partida
 
     # finds the first turn in each start game
     def makeFirstsTurn(self):
+        # look for a double
         for double in ['66', '55', '44', '33', '22', '11', '00']:
             for player in self.players:
                 if double in player.tokens:
                     self.firstsTurn = player.name
                     self.openGameToken = double
                     return
-        token = 0
-        for x in player.tokens:
-            if int(x) > token:
-                token = int(x)
-        print(player.name + ' Played: ' + str(token))
-        return player.tokens.pop(str(token))
+        # look for maximum token
+        maxToken = 0
+        for player in self.players:
+            for x in player.tokens:
+                if int(x) > maxToken:
+                    temporaryFirstsTurn = player.name
+                    maxToken = int(x)
+        self.firstsTurn = temporaryFirstsTurn
+        self.openGameToken = str(maxToken)
+        return
 
     def openHandPlay(self, player):
         print('Open With Double')
@@ -42,18 +47,9 @@ class handPlay(object):  # partida
         input('Press enter to continue')
 
         if player.imAbot:
-
-            # play 66 automatically
-            if self.openGameToken in player.tokens:
-                print(player.name + ' Played: ', self.openGameToken)
-                return player.tokens.pop(self.openGameToken)
-
-            token = 0
-            for x in player.tokens:
-                if int(x) > token:
-                    token = int(x)
-            print(player.name + ' Played: ' + str(token))
-            return player.tokens.pop(str(token))
+            # play automatically
+            print(player.name + ' Played: ', self.openGameToken)
+            return player.tokens.pop(self.openGameToken)
 
         # human play
         print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])

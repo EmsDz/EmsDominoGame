@@ -2,7 +2,7 @@
 # this class is the principal of the game, is the token
 
 
-class token(object):
+class token(object):  # token = ficha
     """docstring for token"""
 
     def __init__(self, num):
