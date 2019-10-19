@@ -9,6 +9,7 @@ class handPlay(object):  # partida
         self.handPlayNumber = 0  # present hand play, is integer
         self.players = players  # players in this round, is a list
         self.firstsTurn = ''  # who play first
+        self.openGameToken = ''  # the token that start the game
         self.winner = None  # name of the winner
         self.points = 0  # count of points of the current handPlay
         self.currentRound = []
@@ -22,20 +23,30 @@ class handPlay(object):  # partida
 
     # finds the first turn in each start game
     def makeFirstsTurn(self):
-        for x in ['66', '55', '44', '33', '22', '11', '00']:
+        for double in ['66', '55', '44', '33', '22', '11', '00']:
             for player in self.players:
-                if x in player.tokens:
+                if double in player.tokens:
                     self.firstsTurn = player.name
+                    self.openGameToken = double
                     return
-            # include player max token
+        token = 0
+        for x in player.tokens:
+            if int(x) > token:
+                token = int(x)
+        print(player.name + ' Played: ' + str(token))
+        return player.tokens.pop(str(token))
 
     def openHandPlay(self, player):
+        print('Open With Double')
+        print(player.name, 'Start This Round.')
+        input('Press enter to continue')
+
         if player.imAbot:
 
             # play 66 automatically
-            if '66' in player.tokens:
-                print(player.name + ' Played: 66')
-                return player.tokens.pop('66')
+            if self.openGameToken in player.tokens:
+                print(player.name + ' Played: ', self.openGameToken)
+                return player.tokens.pop(self.openGameToken)
 
             token = 0
             for x in player.tokens:
@@ -45,15 +56,15 @@ class handPlay(object):  # partida
             return player.tokens.pop(str(token))
 
         # human play
-        print('Open Double Six')
-        print(player.name, 'Start This Round.')
-        input('Press enter to continue')
         print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
         token = input('Enter Token To Play: ')
 
-        while token not in player.tokens:  # controls the input
-            if token != '66' and '66' in player.tokens:
-                print('You Need To Start With 66.')
+        # controls the input
+        while token not in player.tokens or self.openGameToken in player.tokens:
+            if token != self.openGameToken and self.openGameToken in player.tokens:
+                if self.handPlayNumber != 1:
+                    break
+                print('You Need To Start With a Double.')
             else:
                 print('Invalid Token.')
             token = input('Enter Token Again: ')

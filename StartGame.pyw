@@ -21,6 +21,7 @@ AllGames = {}
 
 
 def playerTurn(player, playerList):
+    Pycls()
     nextplayer = playerList.index(player) + 1
     if nextplayer >= len(playerList):
         nextplayer = 0
@@ -40,10 +41,9 @@ def playersRound(players):
         else:
             # check for the player
             if player.imAbot:
-                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1], AllGames[p1].passCount)
+                playBot(player, AllGames[p1], AllGames[p1].passCount)
             else:
-                data = playPerson(player, AllGames[p1], AllGames[p1].passCount)
-                AllGames[p1].handPlays[-1].currentRound.append(data)
+                playPerson(player, AllGames[p1], AllGames[p1].passCount)
 
         # check if the hand has ended, normal or blocked
         if not player.tokens:
@@ -82,7 +82,7 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
         AllGames[p1].giveTokens(AllGames[p1].playerList)
 
         # Create Hand Play
-        AllGames[p1].newHandPlay(CHandPlay.handPlay(AllGames[p1].playerList.copy()))
+        AllGames[p1].newHandPlay(CHandPlay.handPlay(AllGames[p1].playerList))
         AllGames[p1].handPlays[-1].handPlayNumber = len((AllGames[p1].handPlays))
 
         # Temporary Logs

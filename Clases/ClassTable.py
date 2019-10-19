@@ -15,11 +15,6 @@ class table(object):
 
     # return the sum of all tokens outside of the table
     def countPoints(self):
-        # totalPoints = 168
-        # for token in self.tokens:
-        #     totalPoints -= token.tokenValue()
-        # for token in self.tokenPit:
-        #     totalPoints -= token.tokenValue()
         totalPoints = 0
         for player in self.handPlays[-1].players:
             totalPoints += player.tokenPoints()
@@ -34,10 +29,12 @@ class table(object):
             pastToken = self.tokens[0].number[0] + self.tokens[-1].number[1]
             token.changeOrientation()
             self.tokens = [token] + self.tokens
+            token.changeOrientation()
         elif token.number[0] == self.tokens[-1].number[1]:
             pastToken = self.tokens[0].number[0] + self.tokens[-1].number[1]
             self.tokens.append(token)
         else:
+        	# the token was unable to be colocated
             return False
         self.lastState = [self.tokens, pastToken, token]
         return True
