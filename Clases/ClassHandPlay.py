@@ -6,13 +6,11 @@ class handPlay(object):  # partida
     """docstring for handPlay"""
 
     def __init__(self, players):
-        # super(handPlay, self).__init__()
-        self.handPlayNumber = 0  # present handplay, is integer
+        self.handPlayNumber = 0  # present hand play, is integer
         self.players = players  # players in this round, is a list
         self.firstsTurn = ''  # who play first
         self.winner = None  # name of the winner
         self.points = 0  # count of points of the current handPlay
-        # self.passCount = 0
         self.currentRound = []
         self.handPlayLog = {}
 
@@ -23,7 +21,7 @@ class handPlay(object):  # partida
                 self.players = self.players[t:] + self.players[0:t]
 
     # finds the first turn in each start game
-    def makeFirstsTurn(self):  # change to recibe an argument, player to check previous handPlay
+    def makeFirstsTurn(self):
         for x in ['66', '55', '44', '33', '22', '11', '00']:
             for player in self.players:
                 if x in player.tokens:
@@ -31,44 +29,34 @@ class handPlay(object):  # partida
                     return
             # include player max token
 
-    def openDoubleSix(self):  # add automatically the token
-        # change name to be global
-        if self.players[0].imAbot:
-            # print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
-            if '66' in self.players[0].tokens:
-                print(self.players[0].name + ' Played: 66')
-                return self.players[0].tokens.pop('66')
+    def openHandPlay(self, player):
+        if player.imAbot:
+
+            # play 66 automatically
+            if '66' in player.tokens:
+                print(player.name + ' Played: 66')
+                return player.tokens.pop('66')
+
             token = 0
-            for x in self.players[0].tokens:
+            for x in player.tokens:
                 if int(x) > token:
                     token = int(x)
-            print(self.players[0].name + 'Played: ' + str(token))
-            return self.players[0].tokens.pop(str(token))
+            print(player.name + ' Played: ' + str(token))
+            return player.tokens.pop(str(token))
 
-        else:  # modify to open with another token
-            print('Open Double Six')
-            print(self.players[0].name, 'Start This Round.')
-            input('press enter to continue')
-            print(['[' + token[0] + '|' + token[1] + ']' for token in self.players[0].tokens])
-            x = input('Enter Token To Play: ')
+        # human play
+        print('Open Double Six')
+        print(player.name, 'Start This Round.')
+        input('Press enter to continue')
+        print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
+        token = input('Enter Token To Play: ')
 
-            while x != '66' and '66' in self.players[0].tokens:  # little changed
+        while token not in player.tokens:  # controls the input
+            if token != '66' and '66' in player.tokens:
                 print('You Need To Start With 66.')
-                x = input('Enter Token To Play: ')
-
-            while x not in self.players[0].tokens:
+            else:
                 print('Invalid Token.')
-                x = input('Enter Token Again: ')
+            token = input('Enter Token Again: ')
 
-            print(self.players[0].name + ' Played: ' + x)
-            return self.players[0].tokens.pop(x)
-
-    def checkWinner(self, player, table):  # can be eliminated
-        if not player.tokens:
-            self.winner = player.name
-            self.points = table.countPoints()
-            player.playerPoints += self.points
-            # ??? make new handPlay ???
-            # change players states
-            return True
-        return False
+        print(player.name + ' Played: ' + token)
+        return player.tokens.pop(token)

@@ -13,6 +13,7 @@ from Reports import report
 def Pycls(): return os.system("cls")  # cls, borrar pantalla
 
 
+# Part of the menu
 Pycls()
 Intro.introduction()
 MenuC.menu()
@@ -30,19 +31,30 @@ def playerTurn(player, playerList):
 def playersRound(players):
     for player in players:
         Pycls()
-        AllGames[p1].showTableTokens()
-        if player.imAbot:
-            playBot(player, AllGames[p1], AllGames[p1].handPlays[-1], AllGames[p1].passCount)
-        else:
-            data = playPerson(player, AllGames[p1], AllGames[p1].passCount)
-            AllGames[p1].handPlays[-1].currentRound.append(data)
 
-        if AllGames[p1].handPlays[-1].checkWinner(player, AllGames[p1]) or AllGames[p1].blockedWin(player):
-            AllGames[p1].clearTable()
-            AllGames[p1].clearPlayerTokens(AllGames[p1].handPlays[-1].players)
-            print('End of the hand')
-            print('The winner is: ', AllGames[p1].handPlays[-1].winner)
+        AllGames[p1].showTableTokens()
+
+        if not AllGames[p1].tokens:
+            token = AllGames[p1].handPlays[-1].openHandPlay(player)
+            AllGames[p1].addToken(token)
+        else:
+            # check for the player
+            if player.imAbot:
+                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1], AllGames[p1].passCount)
+            else:
+                data = playPerson(player, AllGames[p1], AllGames[p1].passCount)
+                AllGames[p1].handPlays[-1].currentRound.append(data)
+
+        # check if the hand has ended, normal or blocked
+        if not player.tokens:
+            Pycls()
+            AllGames[p1].normalWin(player)
             break
+        elif AllGames[p1].handIsBlocked():
+            Pycls()
+            AllGames[p1].blockedWin(player)
+            break
+
         playerTurn(player, AllGames[p1].handPlays[-1].players)
 
 
@@ -53,14 +65,15 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
         AllGames[p1] = CGame.game()
         AllGames[p1].makeTokenBox()
     else:
-        print('Thanks, buelbe cuando quieras jugar')
+        print('Thanks, hope you return later')
+        break
 
     # create players and bots
     if not AllGames[p1].playerList:
         Pycls()
         MenuC.playerSelector(AllGames[p1].playerList, AllGames[p1].Bots, Cplayer)
 
-    print('Game Start')
+    print('\nGame Start\n')
 
 # loop of game
     while AllGames[p1].gameHasEnded is False:
@@ -68,45 +81,39 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
         AllGames[p1].shuffleTokens(AllGames[p1].tokenBox)
         AllGames[p1].giveTokens(AllGames[p1].playerList)
 
-        AllGames[p1].newHandPlay(CHandPlay.handPlay(AllGames[p1].playerList))
+        # Create Hand Play
+        AllGames[p1].newHandPlay(CHandPlay.handPlay(AllGames[p1].playerList.copy()))
         AllGames[p1].handPlays[-1].handPlayNumber = len((AllGames[p1].handPlays))
 
         # Temporary Logs
         LogState1 = AllGames[p1].handPlays[-1].currentRound
         LogState2 = AllGames[p1].handPlays[-1].handPlayLog
 
+        # manage the first player in each hand
         if len(AllGames[p1].handPlays) == 1:
-            AllGames[p1].handPlays[-1].makeFirstsTurn()
+            AllGames[p1].handPlays[-1].makeFirstsTurn()  # for the 1fr hand
         else:
-            AllGames[p1].handPlays[-1].firstsTurn = AllGames[p1].handPlays[-2].winner
+            AllGames[p1].handPlays[-1].firstsTurn = AllGames[p1].handPlays[-2].winner  # for other hands
 
         AllGames[p1].handPlays[-1].makePlayOrder()
 
-        Pycls()
-
-        if AllGames[p1].handPlays[-1].handPlayNumber == 1:
-            print('Hand Start')
-            AllGames[p1].showTableTokens()
-            token = AllGames[p1].handPlays[-1].openDoubleSix()
-            AllGames[p1].addToken(token)
-            playerTurn(AllGames[p1].handPlays[-1].players[0], AllGames[p1].handPlays[-1].players)
-
-            # log registry
-            AllGames[p1].handPlays[-1].currentRound.append([AllGames[p1].handPlays[-1].players[0], token])
-
-            playersRound(AllGames[p1].handPlays[-1].players[1:])
-            AllGames[p1].handPlays[-1].handPlayLog[1] = AllGames[p1].handPlays[-1].currentRound
-            AllGames[p1].handPlays[-1].currentRound = []
+        Pycls()  #
 
         # temporary variable
-        logCount = 2
+        logCount = 1
+
+        print('New Hand Start\n')
+        print(AllGames[p1].handPlays[-1].winner)
+        print(AllGames[p1].handPlays[-1].winner is None)
+        print('')
         while AllGames[p1].handPlays[-1].winner is None:
             playersRound(AllGames[p1].handPlays[-1].players)
-            AllGames[p1].handPlays[-1].handPlayLog[logCount] = AllGames[p1].handPlays[-1].currentRound
+            # log registry
+            AllGames[p1].handPlays[-1].handPlayLog[logCount] = AllGames[p1].handPlays[-1].currentRound.copy
             AllGames[p1].handPlays[-1].currentRound = []
             logCount += 1
 
-        print('hand prints: ', AllGames[p1].handPlays[-1].points)
+        print('Hand Points: ', AllGames[p1].handPlays[-1].points)
         print('p1: ', AllGames[p1].handPlays[-1].players[0].name, AllGames[p1].handPlays[-1].players[0].playerPoints)
         print('p2: ', AllGames[p1].handPlays[-1].players[1].name, AllGames[p1].handPlays[-1].players[1].playerPoints)
 

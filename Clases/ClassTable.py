@@ -8,18 +8,21 @@ class table(object):
     """docstring for table"""
 
     def __init__(self):
-        # super(table, self).__init__()
+
         self.tokens = []  # tokens that were played, is a list of obj
         self.tokenPit = []  # contend the tokens that rest, that does not have player yet
         self.lastState = [[], '', '']
 
     # return the sum of all tokens outside of the table
-    def countPoints(self):  # menos los del tokenPit - agregar
-        totalPoints = 168
-        for token in self.tokens:
-            totalPoints -= token.tokenValue()
-        for token in self.tokenPit:
-            totalPoints -= token.tokenValue()
+    def countPoints(self):
+        # totalPoints = 168
+        # for token in self.tokens:
+        #     totalPoints -= token.tokenValue()
+        # for token in self.tokenPit:
+        #     totalPoints -= token.tokenValue()
+        totalPoints = 0
+        for player in self.handPlays[-1].players:
+            totalPoints += player.tokenPoints()
         return totalPoints
 
     # verifies the position of the token to put it in the table
@@ -42,6 +45,7 @@ class table(object):
     # clean the tokens variable
     def clearTable(self):  # can be eliminate?
         self.tokens = []
+        self.tokenPit = []
 
     # clean the tokens of each player
     def clearPlayerTokens(self, playerList):  # can be better, set state of player, refactor
@@ -70,7 +74,7 @@ class table(object):
         player.tokens.append(self.tokenPit.pop(0))
 
     def showTableTokens(self):
-        print('Mesa:')
+        print('Table:')
         print('[ ', end='')
         for token in self.tokens:
             token.showToken()

@@ -32,7 +32,7 @@ def playBot(player, table, handPlay, passNum):
     # print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
     if player.checkPlay(table):
         # win x points
-        token = player.autoPlay(table, handPlay)
+        token = player.autoPlay(table)
         passNum[0] = 0
         handPlay.currentRound.append([player, token])
         # print(player.name + ' has played: ')

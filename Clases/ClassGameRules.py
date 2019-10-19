@@ -5,30 +5,37 @@
 class gameRules(object):
     """docstring for gameRules"""
 
-    def __init__(self):
-        self.maxPuntuation = 50
+    def __init__(self, maxPunt=50):
+        self.maxPuntuation = maxPunt
         self.passAllPlayersPoints = 25
         self.keyTokenWinpoints = 50
         self.passCount = [0]
 
-    def blockedWin(self, player1):  # tomar en cuenta el num de jugadores ???
+    def handIsBlocked(self):
         if self.passCount[0] == len(self.handPlays[-1].players):
-            i = self.handPlays[-1].players.index(player1) + 1
-            if i == len(self.handPlays[-1].players):
-                player2 = self.handPlays[-1].players[0]
-            else:
-                player2 = self.handPlays[-1].players[i]
-
-            if player1.tokenPoints() >= player2.tokenPoints():
-                self.normalWin(player1)
-            else:
-                self.normalWin(player2)
             return True
 
-    def normalWin(self, player):  # can be better, count points, check if the points passed the maxPuntuation
+    def blockedWin(self, player1):
+        i = self.handPlays[-1].players.index(player1) + 1
+        if i == len(self.handPlays[-1].players):
+            player2 = self.handPlays[-1].players[0]
+        else:
+            player2 = self.handPlays[-1].players[i]
+
+        if player1.tokenPoints() >= player2.tokenPoints():
+            self.normalWin(player1)
+        else:
+            self.normalWin(player2)
+
+    def normalWin(self, player):  # can be better
         self.handPlays[-1].winner = player.name
         self.handPlays[-1].points = self.countPoints()
         player.playerPoints += self.handPlays[-1].points
+        print('End Of the Hand')
+        self.clearTable()
+        self.passCount = 0
+        self.clearPlayerTokens(self.handPlays[-1].players)
+        print('The Winner is: ', player.name, end='\n')
 
     def passOtherPlayers(self):
         pass
@@ -48,9 +55,10 @@ class gameRules(object):
         for player in players:
             if player.playerPoints >= self.maxPuntuation:
                 self.gameHasEnded = True
-                print('points: ', player.playerPoints)
+                # print('Points: ', player.playerPoints)
                 return [True, player.name]
         return [False, '']
 
+    # "k píkua"
     def keytokenWin(self):
         pass

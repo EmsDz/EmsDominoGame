@@ -13,25 +13,11 @@ class wall_E(player):
         self.imAbot = True
         self.tokensToPlay = []
 
-    def autoPlay(self, table, handPlay):
-        # if not table.tokens and handPlay.handPlayNumber == 1:
-        if not table.tokens and self.name == handPlay.firstsTurn:  # modificar
-            for token in ['66', '55', '44', '33', '22', '11', '00']:
-                if token in self.tokens:
-                    table.addToken(self.tokens.pop(token))
-                    print(self.name + ' has played: ' + token)
-                    return token
-            k = self.tokens.keys()
-            print(k)
-            token = choice(k)
-            table.addToken(self.tokens.pop(token))
-            print(self.name + ' has played: ' + token)
-            return token
-
+    def autoPlay(self, table):
         self.makeTokensToPlay(table)
         token = choice(self.tokensToPlay).number  # select a ramdome token to play
 
-        # little error fixed
+        # little error fixed, -key index-
         if token not in self.tokens:
             token = token[1] + token[0]
 
@@ -46,7 +32,7 @@ class wall_E(player):
         print(self.name + ' has played: ' + token)
         return token
 
-    # create a lis with the tokens that the player can play
+    # create a list with the tokens that the bot can play
     def makeTokensToPlay(self, table):
         self.tokensToPlay = []
         side = table.tokens[0].number[0] + table.tokens[-1].number[1]
