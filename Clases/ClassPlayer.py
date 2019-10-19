@@ -18,6 +18,9 @@ class player(object):
     # add a token to the variable tokens in table, sent it to be verified
     def addTokenToTable(self, token, table):
 
+        if table.validateToken(token):
+            return False
+
         try:
             value = table.addToken(self.tokens[token])
         except Exception:
