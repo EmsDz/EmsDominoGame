@@ -2,11 +2,10 @@
 # this class is the principal of the game, is the token
 
 
-class token(object):
+class token(object):  # token = ficha
     """docstring for token"""
 
     def __init__(self, num):
-        # super(token, self).__init__()
         self.number = num  # which number is in the token, is a string
 
     def changeOrientation(self):

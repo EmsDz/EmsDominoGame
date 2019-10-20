@@ -1,26 +1,21 @@
 
 #
 
-import os
 from Clases import ClassGame as CGame, ClassHandPlay as CHandPlay, ClassPlayer as Cplayer
 from Actions.PlayerActions import playPerson, playBot
 from Menu import Introduction as Intro, MenuContent as MenuC
 from Reports import report
 
 
-# make control for each input
-
-def Pycls(): return os.system("cls")  # cls, borrar pantalla
-
-
 # Part of the menu
-Pycls()
+MenuC.Pycls()
 Intro.introduction()
 MenuC.menu()
-AllGames = {}
+AllGames = {}  # content all games that can be created
 
 
 def playerTurn(player, playerList):
+    # AllGames[p1].Pycls()
     nextplayer = playerList.index(player) + 1
     if nextplayer >= len(playerList):
         nextplayer = 0
@@ -30,28 +25,29 @@ def playerTurn(player, playerList):
 
 def playersRound(players):
     for player in players:
-        Pycls()
+        AllGames[p1].Pycls()
 
         AllGames[p1].showTableTokens()
+        AllGames[p1].handPlays[-1].showHandLog()
 
         if not AllGames[p1].tokens:
             token = AllGames[p1].handPlays[-1].openHandPlay(player)
+            AllGames[p1].handPlays[-1].currentRound.append([player, token.number])
             AllGames[p1].addToken(token)
         else:
             # check for the player
             if player.imAbot:
-                playBot(player, AllGames[p1], AllGames[p1].handPlays[-1], AllGames[p1].passCount)
+                playBot(player, AllGames[p1], AllGames[p1].passCount)
             else:
-                data = playPerson(player, AllGames[p1], AllGames[p1].passCount)
-                AllGames[p1].handPlays[-1].currentRound.append(data)
+                playPerson(player, AllGames[p1], AllGames[p1].passCount)
 
         # check if the hand has ended, normal or blocked
         if not player.tokens:
-            Pycls()
+            AllGames[p1].Pycls()
             AllGames[p1].normalWin(player)
             break
         elif AllGames[p1].handIsBlocked():
-            Pycls()
+            AllGames[p1].Pycls()
             AllGames[p1].blockedWin(player)
             break
 
@@ -70,7 +66,7 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
 
     # create players and bots
     if not AllGames[p1].playerList:
-        Pycls()
+        AllGames[p1].Pycls()
         MenuC.playerSelector(AllGames[p1].playerList, AllGames[p1].Bots, Cplayer)
 
     print('\nGame Start\n')
@@ -82,8 +78,7 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
         AllGames[p1].giveTokens(AllGames[p1].playerList)
 
         # Create Hand Play
-        AllGames[p1].newHandPlay(CHandPlay.handPlay(AllGames[p1].playerList.copy()))
-        AllGames[p1].handPlays[-1].handPlayNumber = len((AllGames[p1].handPlays))
+        AllGames[p1].newHandPlay(CHandPlay.handPlay(AllGames[p1].playerList))
 
         # Temporary Logs
         LogState1 = AllGames[p1].handPlays[-1].currentRound
@@ -97,7 +92,7 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
 
         AllGames[p1].handPlays[-1].makePlayOrder()
 
-        Pycls()  #
+        AllGames[p1].Pycls()  #
 
         # temporary variable
         logCount = 1
@@ -109,16 +104,16 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
         while AllGames[p1].handPlays[-1].winner is None:
             playersRound(AllGames[p1].handPlays[-1].players)
             # log registry
-            AllGames[p1].handPlays[-1].handPlayLog[logCount] = AllGames[p1].handPlays[-1].currentRound.copy
+            AllGames[p1].handPlays[-1].handPlayLog[logCount] = AllGames[p1].handPlays[-1].currentRound.copy()
             AllGames[p1].handPlays[-1].currentRound = []
             logCount += 1
 
         print('Hand Points: ', AllGames[p1].handPlays[-1].points)
-        print('p1: ', AllGames[p1].handPlays[-1].players[0].name, AllGames[p1].handPlays[-1].players[0].playerPoints)
-        print('p2: ', AllGames[p1].handPlays[-1].players[1].name, AllGames[p1].handPlays[-1].players[1].playerPoints)
+        for player in AllGames[p1].handPlays[-1].players:
+            print(player.name, ' points: ', player.playerPoints)
 
         input('\nPress Enter')
-        Pycls()
+        AllGames[p1].Pycls()
         print('New handPlay')
 
         # end of the game
@@ -131,3 +126,4 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
             else:
                 print('Te Winner is: ', endGame[1])
             input('')
+    AllGames[p1].Pycls()

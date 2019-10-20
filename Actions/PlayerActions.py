@@ -2,11 +2,21 @@
 #
 
 
+def pickToken(player, table):
+    if table.tokenPit:
+        player.getTokenFromTokenPit(table)
+        if not player.checkPlay(table):
+            pickToken(player, table)
+        return True
+    else:
+        print('Token Pit is empty.')
+        return False
+
+
 def playPerson(player, table, passNum):
     print('Is The Turn Of: ', player.name)
-    input('Press Enter To Continue')
-    print(player.name, ' Tokens: ')
-    print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
+    player.showPlayerTokens()
+
     if player.checkPlay(table):
 
         # points for pass other players
@@ -15,32 +25,62 @@ def playPerson(player, table, passNum):
 
         passNum[0] = 0
         print('You can play a token')
-        print('Enter the number: ', end='')
-        token = input()
+        token = input('Enter the number: ')
+
+        # check if is a valid token
         while not player.addTokenToTable(token, table):
-            print('Enter a valid token: ', end='')
-            token = input()
+            table.Pycls()
+            table.showTableTokens()
+            player.showPlayerTokens()
+            token = input('Enter a valid token: ')
+
+        if token not in player.tokens:
+            player.tokens.pop(token[::-1])
+        else:
+            player.tokens.pop(token)
+
+        table.Pycls()
         print(player.name + ' Has played: ' + token)
-        return [player, token]
-    else:
-        print('You can not play a token')
-        input('Press enter to Pass')
-        player.passTurn()
-        passNum[0] += 1
-        print(player.name + ' Has: Passed')
-        return [player, 'Passed']
+        table.handPlays[-1].currentRound.append([player, token])
+
+        return
+    elif table.tokenPit:
+        print('You do not have token to play.')
+        input('You will pick one until you can play or pass. Enter')
+        if not pickToken(player, table):
+            table.Pycls()
+            table.showTableTokens()
+            table.handPlays[-1].showHandLog()
+            print('Now you can play a token.')
+            playPerson(player, table, passNum)
+            return
+
+    # pass the turn
+    print('You can not play a token')
+    input('Press enter to Pass')
+    player.passTurn()
+    passNum[0] += 1
+    print(player.name + ' Has: Passed')
+    table.handPlays[-1].currentRound.append([player, 'Passed'])
+    return
 
 
-def playBot(player, table, handPlay, passNum):
+def playBot(player, table, passNum):
     # print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
     if player.checkPlay(table):
         # win x points
-        token = player.autoPlay(table)
+        player.autoPlay(table)
         passNum[0] = 0
-        handPlay.currentRound.append([player, token])
-        # print(player.name + ' has played: ')
-    else:
-        player.passTurn()
-        passNum[0] += 1
-        print(player.name + ' Has: Passed')
-        handPlay.currentRound.append([player, 'Passed'])
+        return
+    elif table.tokenPit:
+        while table.tokenPit and not player.checkPlay(table):
+            table.giveFromTokenPit(player)
+        else:
+            playBot(player, table, passNum)
+            return
+    # pass the turn
+    player.passTurn()
+    passNum[0] += 1
+    print(player.name + ' Has: Passed')
+    table.handPlays[-1].currentRound.append([player, 'Passed'])
+    return

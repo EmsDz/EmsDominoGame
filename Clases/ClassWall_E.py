@@ -15,22 +15,23 @@ class wall_E(player):
 
     def autoPlay(self, table):
         self.makeTokensToPlay(table)
-        token = choice(self.tokensToPlay).number  # select a ramdome token to play
+        token = choice(self.tokensToPlay)  # select a random token to play
 
-        # little error fixed, -key index-
-        if token not in self.tokens:
-            token = token[1] + token[0]
+        # add token to table, change orientation otherwise
+        number = token.number  # to show the token right
+        if not table.addToken(token):
+            token.changeOrientation()
+            number = token.number  # to show the token right
+            table.addToken(token)
 
-        if table.addToken(self.tokens[token]):
-            self.tokens.pop(token)
-            self.state = 'played'
-        else:
-            self.tokens[token].changeOrientation()
-            table.addToken(self.tokens[token])
-            self.tokens.pop(token)
-            self.state = 'played'
-        print(self.name + ' has played: ' + token)
-        return token
+        self.state = 'played'
+        print(self.name + ' has played: ' + number)
+        table.handPlays[-1].currentRound.append([self, number])
+
+        if number not in self.tokens:
+            number = number[::-1]
+        self.tokens.pop(number)
+        return
 
     # create a list with the tokens that the bot can play
     def makeTokensToPlay(self, table):

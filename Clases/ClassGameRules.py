@@ -5,7 +5,7 @@
 class gameRules(object):
     """docstring for gameRules"""
 
-    def __init__(self, maxPunt=50):
+    def __init__(self, maxPunt=100):
         self.maxPuntuation = maxPunt
         self.passAllPlayersPoints = 25
         self.keyTokenWinpoints = 50
@@ -16,6 +16,15 @@ class gameRules(object):
             return True
         return False
 
+    def validateToken(self, token, player):
+        if token not in player.tokens and token[::-1] not in player.tokens:
+            return True
+        if len(token) > 2 or len(token) < 2:
+            return True
+        if token[0] not in '0123456' or token[1] not in '0123456':
+            return True
+        return False
+
     def blockedWin(self, player1):
         i = self.handPlays[-1].players.index(player1) + 1
         if i == len(self.handPlays[-1].players):
@@ -23,7 +32,12 @@ class gameRules(object):
         else:
             player2 = self.handPlays[-1].players[i]
 
-        if player1.tokenPoints() >= player2.tokenPoints():
+        print('\n', player1, ' blocked the hand.\n')
+        print(player1.name + ': ', str(player1.tokenPoints()) + ' vs ', end='')
+        print(player2.name + ': ', str(player2.tokenPoints()))
+        print('\n')
+
+        if player1.tokenPoints() <= player2.tokenPoints():
             self.normalWin(player1)
         else:
             self.normalWin(player2)
@@ -33,12 +47,18 @@ class gameRules(object):
         self.handPlays[-1].points = self.countPoints()
         player.playerPoints += self.handPlays[-1].points
         print('End Of the Hand')
+<<<<<<< HEAD
 
         if not self.handIsBlocked():
             self.keytokenWin(player)
 
         self.clearTable()
         self.passCount = 0
+||||||| merged common ancestors
+        self.clearTable()
+        self.passCount = 0
+=======
+>>>>>>> Improvements
         self.clearPlayerTokens(self.handPlays[-1].players)
         print('The Winner is: ', player.name, end='\n')
 

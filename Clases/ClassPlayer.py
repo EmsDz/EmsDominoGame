@@ -17,22 +17,23 @@ class player(object):
 
     # add a token to the variable tokens in table, sent it to be verified
     def addTokenToTable(self, token, table):
-        if len(token) != 2 or token[0] not in '0123456' or token[1] not in '0123456':
+
+        if table.validateToken(token, self):
+            print('That token does not exits or you do not have it. Enter to continue.')
             return False
 
-        if token in self.tokens or token[::-1] in self.tokens:
-            try:
-                if table.addToken(self.tokens[token]):
-                    self.tokens.pop(token)
-                    self.state = 'played'
-                    return True
-            except Exception:
-                self.tokens[token[::-1]].changeOrientation()
-                if table.addToken(self.tokens[token[::-1]]):
-                    self.tokens.pop(token[::-1])
-                    self.state = 'played'
-                    return True
-        return False
+        try:
+            value = table.addToken(self.tokens[token])
+        except Exception:
+            input('Gira la Ficha y ponla de nuevo.')
+            # self.tokens[token[::-1]].changeOrientation()
+            # value = table.addToken(self.tokens[token[::-1]])
+
+        if value:
+            self.state = 'played'
+        else:
+            input('That token can not be put in the table!!, Enter to continue.')
+        return value
 
     def passTurn(self):
         self.state = 'passed'
@@ -62,6 +63,15 @@ class player(object):
                 token = table.tokenPit.pop(0)
                 self.tokens[token] = token
             else:
-                print("the tokenPit is empty")
+                print("The token Pit is Empty")
         else:
-            print("you have tokens to play")
+            print("You have tokens to play")
+
+    def showPlayerTokens(self):
+        print(self.name, ' Tokens: ', end='')
+        print('[ ', end='')
+        for token in self.tokens:
+            self.tokens[token].showToken()
+            print(' ', end='')
+        print(']', end='')
+        print()
