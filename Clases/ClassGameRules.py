@@ -47,18 +47,12 @@ class gameRules(object):
         self.handPlays[-1].points = self.countPoints()
         player.playerPoints += self.handPlays[-1].points
         print('End Of the Hand')
-<<<<<<< HEAD
 
         if not self.handIsBlocked():
             self.keytokenWin(player)
 
-        self.clearTable()
         self.passCount = 0
-||||||| merged common ancestors
         self.clearTable()
-        self.passCount = 0
-=======
->>>>>>> Improvements
         self.clearPlayerTokens(self.handPlays[-1].players)
         print('The Winner is: ', player.name, end='\n')
 
