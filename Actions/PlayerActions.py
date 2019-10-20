@@ -8,8 +8,11 @@ def playPerson(player, table, passNum):
     print(player.name, ' Tokens: ')
     print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
     if player.checkPlay(table):
-        if passNum[0] == 3:  # change
-            print('You win x points')
+
+        # points for pass other players
+        if passNum[0] == 3:
+            table.passOtherPlayers()
+
         passNum[0] = 0
         print('You can play a token')
         print('Enter the number: ', end='')

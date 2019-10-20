@@ -42,8 +42,9 @@ class gameRules(object):
         self.clearPlayerTokens(self.handPlays[-1].players)
         print('The Winner is: ', player.name, end='\n')
 
-    def passOtherPlayers(self):
-        pass
+    def passOtherPlayers(self, player):
+        print('\nYou pass all other players so you win ', self.passAllPlayersPoints, ' points for that.\n')
+        player.playerPoints += self.passAllPlayersPoints
 
     def endOfGame(self, players):  # can be changed
         if players[0].partner is not None:
