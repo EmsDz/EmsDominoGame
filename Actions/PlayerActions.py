@@ -15,8 +15,7 @@ def pickToken(player, table):
 
 def playPerson(player, table, passNum):
     print('Is The Turn Of: ', player.name)
-    print(player.name, ' Tokens: ', end='')
-    print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
+    player.showPlayerTokens()
 
     if player.checkPlay(table):
         if passNum[0] == 3:  # change
@@ -27,18 +26,9 @@ def playPerson(player, table, passNum):
         token = input('Enter the number: ')
 
         # check if is a valid token
-        while True:
-            if table.validateToken(token, player):
-                token = input('Enter a valid token: ')
-            elif not player.addTokenToTable(token, table):
-                token = input('Enter a playable token: ')
-            break
-            
-        # while table.validateToken(token, player):
-        #     token = input('Enter a valid token: ')
-
-        # while not player.addTokenToTable(token, table):
-        #     token = input('Enter a playable token: ')
+        while not player.addTokenToTable(token, table):
+            player.showPlayerTokens()
+            token = input('Enter a valid token: ')
 
         if token not in player.tokens:
             token = token[1] + token[0]

@@ -19,6 +19,7 @@ class player(object):
     def addTokenToTable(self, token, table):
 
         if table.validateToken(token):
+            print('That token does not exits or you do not have it.')
             return False
 
         try:
@@ -29,6 +30,8 @@ class player(object):
 
         if value:
             self.state = 'played'
+        else:
+            print('That token can not be put in the table!!')
         return value
 
     def passTurn(self):
@@ -62,3 +65,11 @@ class player(object):
                 print("The token Pit is Empty")
         else:
             print("You have tokens to play")
+
+    def showPlayerTokens(self):
+        print(player.name, ' Tokens: ', end='')
+        print('[ ', end='')
+        for token in self.tokens:
+            token.showToken()
+        print(' ]', end='')
+        print()
