@@ -14,6 +14,7 @@ class gameRules(object):
     def handIsBlocked(self):
         if self.passCount[0] == len(self.handPlays[-1].players):
             return True
+        return False
 
     def blockedWin(self, player1):
         i = self.handPlays[-1].players.index(player1) + 1
@@ -32,6 +33,10 @@ class gameRules(object):
         self.handPlays[-1].points = self.countPoints()
         player.playerPoints += self.handPlays[-1].points
         print('End Of the Hand')
+
+        if not self.handIsBlocked():
+            self.keytokenWin(player)
+
         self.clearTable()
         self.passCount = 0
         self.clearPlayerTokens(self.handPlays[-1].players)
@@ -60,5 +65,9 @@ class gameRules(object):
         return [False, '']
 
     # "k píkua"
-    def keytokenWin(self):
-        pass
+    def keytokenWin(self, player):
+        lastToken = self.lastState[2].number
+        tableSides = self.lastState[1]
+        if lastToken == tableSides or lastToken[::-1] == tableSides:
+            print('\n', player.name, ' Win by k Pikua!!! and win ', self.keyTokenWinpoints, ' Points.\n')
+            player.playerPoints += self.keyTokenWinpoints
