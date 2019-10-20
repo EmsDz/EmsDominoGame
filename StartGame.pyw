@@ -126,3 +126,4 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
             else:
                 print('Te Winner is: ', endGame[1])
             input('')
+    AllGames[p1].Pycls()

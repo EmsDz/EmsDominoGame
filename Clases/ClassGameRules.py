@@ -31,10 +31,12 @@ class gameRules(object):
         else:
             player2 = self.handPlays[-1].players[i]
 
+        print('\n', player1, ' blocked the hand.\n')
         print(player1.name + ': ', str(player1.tokenPoints()) + ' vs ', end='')
         print(player2.name + ': ', str(player2.tokenPoints()))
+        print('\n')
 
-        if player1.tokenPoints() >= player2.tokenPoints():
+        if player1.tokenPoints() <= player2.tokenPoints():
             self.normalWin(player1)
         else:
             self.normalWin(player2)
