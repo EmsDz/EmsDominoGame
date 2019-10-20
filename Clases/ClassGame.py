@@ -1,6 +1,7 @@
 
 # this class is the principal of the game, it start the game
 
+import os
 from .ClassTable import table, shuffle
 from .ClassGameRules import gameRules
 from .ClassToken import token
@@ -23,7 +24,7 @@ class game(table, gameRules):
     def newHandPlay(self, handplay):
         self.handPlays.append(handplay)
         self.handPlays[-1].handPlayNumber = len(self.handPlays)
-        self.passCount = 0
+        self.passCount[0] = 0
         self.clearTable()
 
     def makeTokenBox(self):
@@ -31,7 +32,18 @@ class game(table, gameRules):
             for z in range(x, -1, -1):
                 self.tokenBox.append(token(str(x) + str(z)))
 
+    # cls, borrar pantalla
+    def Pycls(self):
+        return os.system("cls")
+
     def makeGroups(self):
         pass
+
+    def showGameStatus(self):
+        print('\n\n')
+        print('            ', end='')
+        for player in self.handPlays[-1].players:
+            print(player.name + ': ' + str(player.playerPoints), end='      ')
+        print('')
 
     # make player?

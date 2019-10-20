@@ -28,13 +28,12 @@ class table(object):
         elif token.number[0] == self.tokens[0].number[0]:
             pastToken = self.tokens[0].number[0] + self.tokens[-1].number[1]
             token.changeOrientation()
-            self.tokens = [token] + self.tokens
-            token.changeOrientation()
+            self.tokens = [token].copy() + self.tokens
         elif token.number[0] == self.tokens[-1].number[1]:
             pastToken = self.tokens[0].number[0] + self.tokens[-1].number[1]
             self.tokens.append(token)
         else:
-        	# the token was unable to be colocated
+            # the token was unable to be colocated
             return False
         self.lastState = [self.tokens, pastToken, token]
         return True
@@ -71,9 +70,10 @@ class table(object):
         player.tokens.append(self.tokenPit.pop(0))
 
     def showTableTokens(self):
-        print('Table:')
+        self.showGameStatus()
+        print('\nTable:')
         print('[ ', end='')
         for token in self.tokens:
             token.showToken()
         print(' ]', end='')
-        print()
+        print('\n')

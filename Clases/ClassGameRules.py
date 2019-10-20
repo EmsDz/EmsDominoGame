@@ -5,7 +5,7 @@
 class gameRules(object):
     """docstring for gameRules"""
 
-    def __init__(self, maxPunt=50):
+    def __init__(self, maxPunt=100):
         self.maxPuntuation = maxPunt
         self.passAllPlayersPoints = 25
         self.keyTokenWinpoints = 50
@@ -30,6 +30,9 @@ class gameRules(object):
             player2 = self.handPlays[-1].players[0]
         else:
             player2 = self.handPlays[-1].players[i]
+
+        print(player1.name + ': ', str(player1.tokenPoints()) + ' vs ', end='')
+        print(player2.name + ': ', str(player2.tokenPoints()))
 
         if player1.tokenPoints() >= player2.tokenPoints():
             self.normalWin(player1)

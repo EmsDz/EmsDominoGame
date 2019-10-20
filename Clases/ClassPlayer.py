@@ -18,20 +18,21 @@ class player(object):
     # add a token to the variable tokens in table, sent it to be verified
     def addTokenToTable(self, token, table):
 
-        if table.validateToken(token):
-            print('That token does not exits or you do not have it.')
+        if table.validateToken(token, self):
+            print('That token does not exits or you do not have it. Enter to continue.')
             return False
 
         try:
             value = table.addToken(self.tokens[token])
         except Exception:
-            self.tokens[token[::-1]].changeOrientation()
-            value = table.addToken(self.tokens[token[::-1]])
+            input('Gira la Ficha y ponla de nuevo.')
+            # self.tokens[token[::-1]].changeOrientation()
+            # value = table.addToken(self.tokens[token[::-1]])
 
         if value:
             self.state = 'played'
         else:
-            print('That token can not be put in the table!!')
+            input('That token can not be put in the table!!, Enter to continue.')
         return value
 
     def passTurn(self):
@@ -67,9 +68,10 @@ class player(object):
             print("You have tokens to play")
 
     def showPlayerTokens(self):
-        print(player.name, ' Tokens: ', end='')
+        print(self.name, ' Tokens: ', end='')
         print('[ ', end='')
         for token in self.tokens:
-            token.showToken()
-        print(' ]', end='')
+            self.tokens[token].showToken()
+            print(' ', end='')
+        print(']', end='')
         print()

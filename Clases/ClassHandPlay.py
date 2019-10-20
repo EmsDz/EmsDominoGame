@@ -48,22 +48,39 @@ class handPlay(object):  # partida
 
         if player.imAbot:
             # play automatically
+            if self.openGameToken == '':
+                maxToken = 0
+                for x in player.tokens:
+                    if int(x) > maxToken:
+                        maxToken = int(x)
+                self.openGameToken = str(maxToken)
+
             print(player.name + ' Played: ', self.openGameToken)
             return player.tokens.pop(self.openGameToken)
 
         # human play
-        print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
+        player.showPlayerTokens()
         token = input('Enter Token To Play: ')
 
         # controls the input
-        while token not in player.tokens or self.openGameToken in player.tokens:
+        while token not in player.tokens or token != self.openGameToken:
             if token != self.openGameToken and self.openGameToken in player.tokens:
                 if self.handPlayNumber != 1:
                     break
-                print('You Need To Start With a Double.')
-            else:
+                print('You Need To Start With a Double. A bigger one, like: ', self.openGameToken)
+            elif token not in player.tokens:
                 print('Invalid Token.')
+            else:
+                break
             token = input('Enter Token Again: ')
 
         print(player.name + ' Played: ' + token)
         return player.tokens.pop(token)
+
+    def showHandLog(self):
+        for l in self.handPlayLog:
+            print(str(l), end=' ')
+            for log in self.handPlayLog[l]:
+                print(log[0].name + ': ' + log[1], end=' ')
+            print('')
+        print('\n')

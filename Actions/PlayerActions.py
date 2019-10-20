@@ -7,10 +7,10 @@ def pickToken(player, table):
         player.getTokenFromTokenPit(table)
         if not player.checkPlay(table):
             pickToken(player, table)
-        return
+        return True
     else:
         print('Token Pit is empty.')
-        return
+        return False
 
 
 def playPerson(player, table, passNum):
@@ -27,27 +27,40 @@ def playPerson(player, table, passNum):
 
         # check if is a valid token
         while not player.addTokenToTable(token, table):
+            table.Pycls()
+            table.showTableTokens()
             player.showPlayerTokens()
             token = input('Enter a valid token: ')
 
         if token not in player.tokens:
-            token = token[1] + token[0]
+            player.tokens.pop(token[::-1])
+        else:
+            player.tokens.pop(token)
 
-        print(player.name + ' Has played: ' + player.tokens[token].number)
-        table.handPlays[-1].currentRound.append([player, player.tokens[token].number])
+        table.Pycls()
+        print(player.name + ' Has played: ' + token)
+        table.handPlays[-1].currentRound.append([player, token])
 
-        player.tokens.pop(token)
         return
-    # elif table.tokenPit:
-    #     pass
-    else:
-        print('You can not play a token')
-        input('Press enter to Pass')
-        player.passTurn()
-        passNum[0] += 1
-        print(player.name + ' Has: Passed')
-        table.handPlays[-1].currentRound.append([player, 'Passed'])
-        return
+    elif table.tokenPit:
+        print('You do not have token to play.')
+        input('You will pick one until you can play or pass. Enter')
+        if not pickToken(player, table):
+            table.Pycls()
+            table.showTableTokens()
+            table.handPlays[-1].showHandLog()
+            print('Now you can play a token.')
+            playPerson(player, table, passNum)
+            return
+
+    # pass the turn
+    print('You can not play a token')
+    input('Press enter to Pass')
+    player.passTurn()
+    passNum[0] += 1
+    print(player.name + ' Has: Passed')
+    table.handPlays[-1].currentRound.append([player, 'Passed'])
+    return
 
 
 def playBot(player, table, passNum):
@@ -63,9 +76,9 @@ def playBot(player, table, passNum):
         else:
             playBot(player, table, passNum)
             return
-    else:
-        player.passTurn()
-        passNum[0] += 1
-        print(player.name + ' Has: Passed')
-        table.handPlays[-1].currentRound.append([player, 'Passed'])
-        return
+    # pass the turn
+    player.passTurn()
+    passNum[0] += 1
+    print(player.name + ' Has: Passed')
+    table.handPlays[-1].currentRound.append([player, 'Passed'])
+    return
