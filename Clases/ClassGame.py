@@ -17,7 +17,7 @@ class game(table, gameRules):
         self.handPlays = []
         self.tokenBox = []
         self.playerList = []
-        self.Bots = [wall_E('Bobby'), wall_E('Brayan'), wall_E('Teddy'), wall_E('Trebon')]
+        self.Bots = shuffle([wall_E('Bobby'), wall_E('Brayan'), wall_E('Teddy'), wall_E('Trebon')])
         self.gameHasEnded = False
 
     def newHandPlay(self, handplay):
