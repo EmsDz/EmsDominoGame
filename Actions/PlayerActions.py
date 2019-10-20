@@ -27,19 +27,26 @@ def playPerson(player, table, passNum):
         token = input('Enter the number: ')
 
         # check if is a valid token
-        while token not in player.tokens and token[::-1] not in player.tokens:
-            token = input('Enter a valid token: ')
+        while True:
+            if table.validateToken(token, player):
+                token = input('Enter a valid token: ')
+            elif not player.addTokenToTable(token, table):
+                token = input('Enter a playable token: ')
+            break
+            
+        # while table.validateToken(token, player):
+        #     token = input('Enter a valid token: ')
 
-        while player.addTokenToTable(token, table):
-            print('Enter a playable token: ')
+        # while not player.addTokenToTable(token, table):
+        #     token = input('Enter a playable token: ')
+
+        if token not in player.tokens:
+            token = token[1] + token[0]
 
         print(player.name + ' Has played: ' + player.tokens[token].number)
         table.handPlays[-1].currentRound.append([player, player.tokens[token].number])
 
-        try:
-            player.tokens.pop(token.number)
-        except Exception:
-            player.tokens.pop(token.number[::-1])
+        player.tokens.pop(token)
         return
     # elif table.tokenPit:
     #     pass
@@ -57,15 +64,14 @@ def playBot(player, table, passNum):
     # print(['[' + token[0] + '|' + token[1] + ']' for token in player.tokens])
     if player.checkPlay(table):
         # win x points
-        token = player.autoPlay(table)
+        player.autoPlay(table)
         passNum[0] = 0
-        table.handPlays[-1].currentRound.append([player, token])
         return
     elif table.tokenPit:
         while table.tokenPit and not player.checkPlay(table):
             table.giveFromTokenPit(player)
         else:
-            playBot(player, table, handPlay, passNum)
+            playBot(player, table, passNum)
             return
     else:
         player.passTurn()

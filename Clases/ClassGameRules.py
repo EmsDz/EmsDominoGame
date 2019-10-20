@@ -15,7 +15,9 @@ class gameRules(object):
         if self.passCount[0] == len(self.handPlays[-1].players):
             return True
 
-    def validateToken(self, token):
+    def validateToken(self, token, player):
+        if token not in player.tokens and token[::-1] not in player.tokens:
+            return True
         if len(token) > 2 or len(token) < 2:
             return True
         if token[0] not in '0123456' or token[1] not in '0123456':
