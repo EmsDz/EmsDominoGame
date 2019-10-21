@@ -19,15 +19,14 @@ class player(object):
     def addTokenToTable(self, token, table):
 
         if table.validateToken(token, self):
-            print('That token does not exits or you do not have it. Enter to continue.')
+            input('That token does not exits or you do not have it. Enter to continue.')
             return False
 
         try:
             value = table.addToken(self.tokens[token])
         except Exception:
-            input('Gira la Ficha y ponla de nuevo.')
-            # self.tokens[token[::-1]].changeOrientation()
-            # value = table.addToken(self.tokens[token[::-1]])
+            self.tokens[token[::-1]].changeOrientation()
+            value = table.addToken(self.tokens[token[::-1]])
 
         if value:
             self.state = 'played'
@@ -61,7 +60,7 @@ class player(object):
         if not self.checkPlay(table):
             if table.tokenPit:
                 token = table.tokenPit.pop(0)
-                self.tokens[token] = token
+                self.tokens[token.number] = token
             else:
                 print("The token Pit is Empty")
         else:

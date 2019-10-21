@@ -22,7 +22,7 @@ def playerSelector(playerList, Bots, Enterp):
         selected = input('\nYour selection is: ')
         # Pycls()
         # selected
-        if selected in "1234":
+        if selected in "1234" and selected != '':
             break
         else:
             print('Wrong number, Enter again.')

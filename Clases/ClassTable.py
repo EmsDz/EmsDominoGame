@@ -40,8 +40,9 @@ class table(object):
 
     # clean the tokens variable
     def clearTable(self):  # can be eliminate?
-        self.tokens = []
-        self.tokenPit = []
+        # self.tokens = []
+        # self.tokenPit = []
+        pass
 
     # clean the tokens of each player
     def clearPlayerTokens(self, playerList):  # can be better, set state of player, refactor
@@ -50,8 +51,8 @@ class table(object):
 
     # put the  tokens randomly
     def shuffleTokens(self, tokenList):  # can be better?, respect to cleanTable()
-        if len(self.tokens) < 28:
-            self.clearTable()
+        if len(self.tokens) < 28:  # modify
+            self.tokens = []
             self.tokens += tokenList
         shuffle(self.tokens)
 
@@ -63,17 +64,27 @@ class table(object):
                 self.tokens.pop(0)
         if self.tokens:
             self.tokenPit = []
-            self.tokenPit += self.tokens
-            self.clearTable()
+            self.tokenPit += self.tokens.copy()
 
-    def giveFromTokenpit(self, player):
-        player.tokens.append(self.tokenPit.pop(0))
+    def giveFromTokenPit(self, player):
+        token = self.tokenPit.pop(0)
+        player.tokens[token.number] = token
 
     def showTableTokens(self):
         self.showGameStatus()
+        self.showTokenPit()
         print('\nTable:')
         print('[ ', end='')
         for token in self.tokens:
             token.showToken()
         print(' ]', end='')
         print('\n')
+
+    def showTokenPit(self):
+        shuffle(self.tokenPit)
+        print('\nToken Pit:', end='')
+        print('[ ', end='')
+        for token in self.tokenPit:
+            token.showToken()
+            # print('[X|X]', end='')
+        print(' ]', end='')

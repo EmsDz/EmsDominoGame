@@ -47,7 +47,7 @@ def playPerson(player, table, passNum):
     elif table.tokenPit:
         print('You do not have token to play.')
         input('You will pick one until you can play or pass. Enter')
-        if not pickToken(player, table):
+        if pickToken(player, table):
             table.Pycls()
             table.showTableTokens()
             table.handPlays[-1].showHandLog()
@@ -70,7 +70,7 @@ def playBot(player, table, passNum):
     if player.checkPlay(table):
         # win x points
         player.autoPlay(table)
-        passNum[0] = 0
+        passNum = [0]
         return
     elif table.tokenPit:
         while table.tokenPit and not player.checkPlay(table):

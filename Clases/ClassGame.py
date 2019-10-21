@@ -5,7 +5,7 @@ import os
 from .ClassTable import table, shuffle
 from .ClassGameRules import gameRules
 from .ClassToken import token
-from .ClassPlayer import player
+# from .ClassPlayer import player
 from .ClassWall_E import wall_E
 
 
@@ -18,14 +18,15 @@ class game(table, gameRules):
         self.handPlays = []
         self.tokenBox = []
         self.playerList = []
-        self.Bots = shuffle([wall_E('Bobby'), wall_E('Brayan'), wall_E('Teddy'), wall_E('Trebon')])
+        self.Bots = [wall_E('Bobby'), wall_E('Brayan'), wall_E('Teddy'), wall_E('Trebon')]
+        shuffle(self.Bots)
         self.gameHasEnded = False
 
     def newHandPlay(self, handplay):
         self.handPlays.append(handplay)
         self.handPlays[-1].handPlayNumber = len(self.handPlays)
-        self.passCount[0] = 0
-        self.clearTable()
+        self.passCount = [0]
+        self.tokens = []
 
     def makeTokenBox(self):
         for x in range(6, -1, -1):
@@ -40,7 +41,7 @@ class game(table, gameRules):
         pass
 
     def showGameStatus(self):
-        print('\n\n')
+        print('\n')
         print('            ', end='')
         for player in self.handPlays[-1].players:
             print(player.name + ': ' + str(player.playerPoints), end='      ')

@@ -69,8 +69,6 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
         AllGames[p1].Pycls()
         MenuC.playerSelector(AllGames[p1].playerList, AllGames[p1].Bots, Cplayer)
 
-    print('\nGame Start\n')
-
 # loop of game
     while AllGames[p1].gameHasEnded is False:
 
@@ -80,10 +78,6 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
         # Create Hand Play
         AllGames[p1].newHandPlay(CHandPlay.handPlay(AllGames[p1].playerList))
 
-        # Temporary Logs
-        LogState1 = AllGames[p1].handPlays[-1].currentRound
-        LogState2 = AllGames[p1].handPlays[-1].handPlayLog
-
         # manage the first player in each hand
         if len(AllGames[p1].handPlays) == 1:
             AllGames[p1].handPlays[-1].makeFirstsTurn()  # for the 1fr hand
@@ -92,15 +86,9 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
 
         AllGames[p1].handPlays[-1].makePlayOrder()
 
-        AllGames[p1].Pycls()  #
-
         # temporary variable
         logCount = 1
 
-        print('New Hand Start\n')
-        print(AllGames[p1].handPlays[-1].winner)
-        print(AllGames[p1].handPlays[-1].winner is None)
-        print('')
         while AllGames[p1].handPlays[-1].winner is None:
             playersRound(AllGames[p1].handPlays[-1].players)
             # log registry
@@ -114,7 +102,6 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
 
         input('\nPress Enter')
         AllGames[p1].Pycls()
-        print('New handPlay')
 
         # end of the game
         endGame = AllGames[p1].endOfGame(AllGames[p1].handPlays[-1].players)
@@ -125,5 +112,6 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
                 print('Te Winners are: ', endGame[1][0], endGame[1][1])
             else:
                 print('Te Winner is: ', endGame[1])
-            input('')
+            input('\nPress Enter')
+
     AllGames[p1].Pycls()
