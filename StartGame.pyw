@@ -9,8 +9,6 @@ from Reports import report
 
 # Part of the menu
 MenuC.Pycls()
-Intro.introduction()
-MenuC.menu()
 AllGames = {}  # content all games that can be created
 
 
@@ -54,15 +52,19 @@ def playersRound(players):
         playerTurn(player, AllGames[p1].handPlays[-1].players)
 
 
-while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
+while True:
 
-    if input('Create Game?, Yes/No: ').upper() == 'YES':
-        p1 = len(AllGames) + 1
-        AllGames[p1] = CGame.game()
-        AllGames[p1].makeTokenBox()
-    else:
+    selectect = MenuC.menu()
+
+    if selectect == '2':
         print('Thanks, hope you return later')
+        print("You close the Game.\n\n")
         break
+
+    # create the game
+    p1 = len(AllGames) + 1
+    AllGames[p1] = CGame.game()
+    AllGames[p1].makeTokenBox()
 
     # create players and bots
     if not AllGames[p1].playerList:
@@ -115,3 +117,6 @@ while input('Wants to play Dominoes?, Yes/No: ').upper() == 'YES':
             input('\nPress Enter')
 
     AllGames[p1].Pycls()
+
+# controls
+

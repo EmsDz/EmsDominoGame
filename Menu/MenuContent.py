@@ -1,14 +1,36 @@
 
 #
 import os
-
+from .Introduction import introduction as intro
 
 def Pycls():
     return os.system("cls")
 
 
 def menu():
-    print("This will be the menu part, coming soon :) ;)")
+    Pycls()
+    intro()
+    # print("")
+    print("Select an obtion:")
+    print("1- Play Dominoes")
+    # print("2- Dominoes Rules")
+    print("2- Exit Game")
+    # print("")
+    selected = input("\nYour selectionis: ")
+    while selected not in ['1','2'] or selected == '':
+        Pycls()
+        print('\n\nWrong number, Enter again.\n')
+        return menu()
+
+    if selected == '2':
+        while True:
+            Pycls()
+            p = input('\n\nYou realy want to exit? YES/NO \nYour answer: ').upper()
+            if p in ['N','NO']:
+                return menu()
+            if p in ['Y', 'YES']:
+                break
+        return selected
 
 
 def playerSelector(playerList, Bots, Enterp):
@@ -22,10 +44,11 @@ def playerSelector(playerList, Bots, Enterp):
         selected = input('\nYour selection is: ')
         # Pycls()
         # selected
-        if selected in "1234" and selected != '':
+        if selected in ["1","2", "3", "4"] and selected != '':
             break
         else:
-            print('Wrong number, Enter again.')
+            print('Wrong number, Enter again.\n')
+            playerSelector(playerList, Bots, Enterp)
 
     # selected 1-
     if selected == '1':
@@ -56,3 +79,4 @@ def playerSelector(playerList, Bots, Enterp):
                     print("enter a valid input.")
                     nPlayers += 1
         break
+    return
