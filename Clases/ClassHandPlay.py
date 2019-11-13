@@ -25,6 +25,7 @@ class handPlay(object):  # partida
     def makeFirstsTurn(self):
         # look for a double
         for double in ['66', '55', '44', '33', '22', '11', '00']:
+            # raise Exception('something happend')
             for player in self.players:
                 if double in player.tokens:
                     self.firstsTurn = player.name
@@ -60,7 +61,12 @@ class handPlay(object):  # partida
 
         # human play
         player.showPlayerTokens()
-        token = input('Enter Token To Play: ')
+        token = input('Enter Token To Play: ').upper()
+
+        # ended game
+        if token in ['X', 'SALIR', 'EXIT', 'EX', 'CLOSE', 'END']:
+            if player.leaveGame():
+                return 'EXIT'
 
         # controls the input
         while token not in player.tokens or token != self.openGameToken:

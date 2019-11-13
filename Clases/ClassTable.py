@@ -78,7 +78,7 @@ class table(object):
         for token in self.tokens:
             token.showToken()
         print(' ]', end='')
-        print('\n')
+        print('')
 
     def showTokenPit(self):
         shuffle(self.tokenPit)
@@ -87,4 +87,4 @@ class table(object):
         for token in self.tokenPit:
             # token.showToken()
             print('[X|X]', end='')
-        print(' ]', end='')
+        print(' ]')

@@ -42,9 +42,10 @@ class game(table, gameRules):
 
     def showGameStatus(self):
         print('\n')
-        print('            ', end='')
+        print(' Table - Game Status')
+        print('       ', end='')
         for player in self.handPlays[-1].players:
             print(player.name + ': ' + str(player.playerPoints), end='      ')
-        print('')
+        print('Enter x / End, to leave the game.')
 
     # make player?

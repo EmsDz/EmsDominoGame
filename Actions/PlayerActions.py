@@ -33,6 +33,10 @@ def playPerson(player, table, passNum):
             table.showTableTokens()
             player.showPlayerTokens()
             token = input('Enter a valid token: ')
+            # ended game
+            if token in ['X', 'SALIR', 'EXIT', 'EX', 'CLOSE', 'END']:
+                if player.leaveGame():
+                    return 'EXIT'
 
         if token not in player.tokens:
             player.tokens.pop(token[::-1])
@@ -43,7 +47,7 @@ def playPerson(player, table, passNum):
         print(player.name + ' Has played: ' + token)
         table.handPlays[-1].currentRound.append([player, token])
 
-        return
+        return ''
     elif table.tokenPit:
         print('You do not have token to play.')
         input('You will pick one until you can play or pass. Enter')
@@ -53,7 +57,7 @@ def playPerson(player, table, passNum):
             table.handPlays[-1].showHandLog()
             print('Now you can play a token.')
             playPerson(player, table, passNum)
-            return
+            return ''
 
     # pass the turn
     print('You can not play a token')
@@ -62,7 +66,7 @@ def playPerson(player, table, passNum):
     passNum[0] += 1
     print(player.name + ' Has: Passed')
     table.handPlays[-1].currentRound.append([player, 'Passed'])
-    return
+    return ''
 
 
 def playBot(player, table, passNum):

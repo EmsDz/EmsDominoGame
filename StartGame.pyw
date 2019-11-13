@@ -30,6 +30,10 @@ def playersRound(players):
 
         if not AllGames[p1].tokens:
             token = AllGames[p1].handPlays[-1].openHandPlay(player)
+            # ended game
+            if token == 'EXIT':
+                return 'EXIT'
+
             AllGames[p1].handPlays[-1].currentRound.append([player, token.number])
             AllGames[p1].addToken(token)
         else:
@@ -37,7 +41,10 @@ def playersRound(players):
             if player.imAbot:
                 playBot(player, AllGames[p1], AllGames[p1].passCount)
             else:
-                playPerson(player, AllGames[p1], AllGames[p1].passCount)
+                exit = playPerson(player, AllGames[p1], AllGames[p1].passCount)
+                # ended game
+                if exit == 'EXIT':
+                    return 'EXIT'
 
         # check if the hand has ended, normal or blocked
         if not player.tokens:
@@ -50,6 +57,7 @@ def playersRound(players):
             break
 
         playerTurn(player, AllGames[p1].handPlays[-1].players)
+    return ''
 
 
 while True:
@@ -57,7 +65,7 @@ while True:
     selectect = MenuC.menu()
 
     if selectect == '2':
-        print('Thanks, hope you return later')
+        print('\n\nThanks, hope you return later')
         print("You close the Game.\n\n")
         break
 
@@ -92,11 +100,18 @@ while True:
         logCount = 1
 
         while AllGames[p1].handPlays[-1].winner is None:
-            playersRound(AllGames[p1].handPlays[-1].players)
+            exit = playersRound(AllGames[p1].handPlays[-1].players)
+            # ended game
+            if exit == 'EXIT':
+                break
+
             # log registry
             AllGames[p1].handPlays[-1].handPlayLog[logCount] = AllGames[p1].handPlays[-1].currentRound.copy()
             AllGames[p1].handPlays[-1].currentRound = []
             logCount += 1
+        # ended game
+        if exit == 'EXIT':
+            break
 
         print('Hand Points: ', AllGames[p1].handPlays[-1].points)
         for player in AllGames[p1].handPlays[-1].players:
@@ -117,6 +132,11 @@ while True:
             input('\nPress Enter')
 
     AllGames[p1].Pycls()
+
+    # ended game
+    if exit == 'EXIT':
+        print('\n\nYou Ended the Game.')
+        input('\n\nPress Enter to continue...')
 
 # controls
 
