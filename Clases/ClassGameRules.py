@@ -62,8 +62,8 @@ class gameRules(object):
 
     def endOfGame(self, players):  # can be changed
         if players[0].partner is not None:
-            group1 = [players[0], players[2], players[0].playerPoints + players[2].playerPoints]
-            group2 = [players[1], players[3], players[1].playerPoints + players[3].playerPoints]
+            group1 = [players[0].name, players[2].name, players[0].playerPoints + players[2].playerPoints]
+            group2 = [players[1].name, players[3].name, players[1].playerPoints + players[3].playerPoints]
             if group1[2] >= self.maxPuntuation:
                 self.gameHasEnded = True
                 return group1[:2]

@@ -38,12 +38,6 @@ class table(object):
         self.lastState = [self.tokens, pastToken, token]
         return True
 
-    # clean the tokens variable
-    def clearTable(self):  # can be eliminate?
-        # self.tokens = []
-        # self.tokenPit = []
-        pass
-
     # clean the tokens of each player
     def clearPlayerTokens(self, playerList):  # can be better, set state of player, refactor
         for player in playerList:
@@ -82,9 +76,5 @@ class table(object):
 
     def showTokenPit(self):
         shuffle(self.tokenPit)
-        print('\nToken Pit: ', len(self.tokenPit), end='')
-        print('[ ', end='')
-        for token in self.tokenPit:
-            # token.showToken()
-            print('[X|X]', end='')
-        print(' ]')
+        print('\nToken Pit: ', end='')
+        print('[ [X|X] ] = ', len(self.tokenPit))

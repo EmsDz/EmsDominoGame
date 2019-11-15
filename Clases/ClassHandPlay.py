@@ -79,6 +79,10 @@ class handPlay(object):  # partida
             else:
                 break
             token = input('Enter Token Again: ')
+            # ended game
+            if token in ['X', 'SALIR', 'EXIT', 'EX', 'CLOSE', 'END']:
+                if player.leaveGame():
+                    return 'EXIT'
 
         print(player.name + ' Played: ' + token)
         return player.tokens.pop(token)

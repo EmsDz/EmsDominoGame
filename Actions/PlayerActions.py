@@ -25,14 +25,17 @@ def playPerson(player, table, passNum):
 
         passNum[0] = 0
         print('You can play a token')
-        token = input('Enter the number: ')
-
+        token = input('Enter the number: ').upper()
+        # ended game
+        if token in ['X', 'SALIR', 'EXIT', 'EX', 'CLOSE', 'END']:
+            if player.leaveGame():
+                return 'EXIT'
         # check if is a valid token
         while not player.addTokenToTable(token, table):
             table.Pycls()
             table.showTableTokens()
             player.showPlayerTokens()
-            token = input('Enter a valid token: ')
+            token = input('Enter a valid token: ').upper()
             # ended game
             if token in ['X', 'SALIR', 'EXIT', 'EX', 'CLOSE', 'END']:
                 if player.leaveGame():
