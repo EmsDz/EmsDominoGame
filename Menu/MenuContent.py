@@ -110,7 +110,8 @@ def playerSelector(playerList, Bots, CreatePlayer):
         if nPlayers >= 2 and nPlayers <= 4:
             for x in range(0, nPlayers):
                 Pycls()
-                yesOrno = input('\n\nWant a bot player: Yes or No\nYour choice: ').upper()
+                print('\n\nPlayer #', len(playerList))
+                yesOrno = input('Want a bot player: Yes or No\nYour choice: ').upper()
                 if yesOrno in ['YES', 'Y']:
                     playerList.append(Bots.pop())
                 elif yesOrno in ['NO', 'N']:

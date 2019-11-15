@@ -39,7 +39,7 @@ class game(table, gameRules):
 
     def showGameStatus(self):
         print('\n')
-        print(' Table - Game Status')
+        print('   Table - Game Status\n')
         print('       ', end='')
         for player in self.handPlays[-1].players:
             print(player.name + ': ' + str(player.playerPoints), end='      ')
