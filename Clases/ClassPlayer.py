@@ -78,8 +78,8 @@ class player(object):
     def leaveGame(self):
         while True:
             p = input('\n\nYou realy want to exit? YES/NO \nYour answer: ').upper()
-            if p in ['N','NO']:
+            if p in ['N', 'NO']:
                 return False
             if p in ['Y', 'YES']:
                 return True
-        # return 
+        # return

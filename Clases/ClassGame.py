@@ -43,9 +43,8 @@ class game(table, gameRules):
     def showGameStatus(self):
         print('\n')
         print(' Table - Game Status')
-        print('       ', end='')
+        print('     Max Game Points: ', self.maxPuntuation, '         K Pikua: ', self.keyTokenWinpoints)
+        print('        ', end='')
         for player in self.handPlays[-1].players:
             print(player.name + ': ' + str(player.playerPoints), end='      ')
-        print('Enter x / End, to leave the game.')
-
-    # make player?
+        print('Enter X / End, to leave the game.')

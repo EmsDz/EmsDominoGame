@@ -5,7 +5,7 @@
 class gameRules(object):
     """docstring for gameRules"""
 
-    def __init__(self, maxPunt=100):
+    def __init__(self, maxPunt=150):
         self.maxPuntuation = maxPunt
         self.passAllPlayersPoints = 25
         self.keyTokenWinpoints = 50
@@ -21,7 +21,7 @@ class gameRules(object):
             return True
         if len(token) > 2 or len(token) < 2:
             return True
-        if token[0] not in '0123456' or token[1] not in '0123456':
+        if token[0] not in ['0', '1', '2', '3', "4", '5', '6'] or token[1] not in ['0', '1', '2', '3', "4", '5', '6']:
             return True
         return False
 
@@ -32,7 +32,7 @@ class gameRules(object):
         else:
             player2 = self.handPlays[-1].players[i]
 
-        print('\n', player1.name, ' blocked the hand.\n')
+        print('\n', player1.name, ' Blocked the hand.\n')
         print(player1.name + ':', str(player1.tokenPoints()) + '  vs  ', end='')
         print(player2.name + ':', str(player2.tokenPoints()))
         print('\n')
@@ -46,7 +46,7 @@ class gameRules(object):
         self.handPlays[-1].winner = player.name
         self.handPlays[-1].points = self.countPoints()
         player.playerPoints += self.handPlays[-1].points
-        print('End Of the Hand')
+        print('\n#### End Of the Hand ####')
 
         if not self.handIsBlocked():
             self.keytokenWin(player)
@@ -54,7 +54,7 @@ class gameRules(object):
         self.passCount = [0]
         self.tokens = []
         self.clearPlayerTokens(self.handPlays[-1].players)
-        print('The Winner is: ', player.name, end='\n')
+        print('##The Winner is: ', player.name, end='\n')
 
     def passOtherPlayers(self, player):
         print('\nYou pass all other players so you win ', self.passAllPlayersPoints, ' points for that.\n')
@@ -75,7 +75,6 @@ class gameRules(object):
         for player in players:
             if player.playerPoints >= self.maxPuntuation:
                 self.gameHasEnded = True
-                # print('Points: ', player.playerPoints)
                 return [True, player.name]
         return [False, '']
 
