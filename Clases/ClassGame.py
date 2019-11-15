@@ -37,9 +37,6 @@ class game(table, gameRules):
     def Pycls(self):
         return os.system("cls")
 
-    def makeGroups(self):
-        pass
-
     def showGameStatus(self):
         print('\n')
         print(' Table - Game Status')
