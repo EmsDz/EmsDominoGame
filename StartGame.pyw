@@ -113,7 +113,7 @@ while True:
         if exit == 'EXIT':
             break
 
-        print('Hand Points: ', AllGames[p1].handPlays[-1].points)
+        print('\nHand Points: ', AllGames[p1].handPlays[-1].points, '\n')
         for player in AllGames[p1].handPlays[-1].players:
             print(player.name, ' points: ', player.playerPoints)
 
@@ -124,11 +124,11 @@ while True:
         endGame = AllGames[p1].endOfGame(AllGames[p1].handPlays[-1].players)
 
         if endGame[0] is True:
-            print('The Game has ended.')
+            print('\n\nThe Game has ended.\n')
             if type(endGame[1]) is list:
-                print('Te Winners are: ', endGame[1][0], endGame[1][1])
+                print('*** Te Winners are: ', endGame[1][0], endGame[1][1])
             else:
-                print('Te Winner is: ', endGame[1])
+                print('*** Te Winner is: ', endGame[1])
             input('\nPress Enter')
 
     AllGames[p1].Pycls()
@@ -139,4 +139,3 @@ while True:
         input('\n\nPress Enter to continue...')
 
 # controls
-
